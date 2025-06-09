@@ -71,7 +71,7 @@
         .accordion-content li {
             margin-bottom: 0.25rem; 
         }
-        .unit-section-title, .standard-title, .framework-title, .assessment-subtitle, .phenomena-title {
+        .unit-section-title, .standard-title, .framework-title, .assessment-subtitle, .phenomena-title, .model-title {
              font-size: 1.25rem; /* text-xl */
              font-weight: 600; /* font-semibold */
              color: #075985; /* sky-800 */
@@ -80,7 +80,7 @@
              border-bottom: 1px solid #e5e7eb; /* border-stone-200 */
              padding-bottom: 0.25rem; 
         }
-         .assessment-subtitle, .phenomena-title {
+         .assessment-subtitle, .phenomena-title, .model-title {
             font-size: 1.125rem; /* text-lg */
             color: #0c4a6e; /* sky-800 */
             border-bottom: none;
@@ -121,7 +121,7 @@
     </style>
     <!-- Chosen Palette: Warm Neutrals (Stone) with Sky Blue accents -->
     <!-- Application Structure Plan: Expanded to 5 units for better content distribution and standards coverage. Assessments now explicitly reference performance tasks from The Wonder of Science. The evaluation section in each unit details a standards-based grading (SBG) approach, focusing on proficiency levels for targeted PEs. -->
-    <!-- Visualization & Content Choices: Report Info: Pennsylvania High School NGSS Storyline-Driven Chemistry Curriculum (V17 - Final AMTA Gas Law Integration). Goal: Interactive exploration of a curriculum aligned with PA STEELS, SAS, and SBG principles, now including Gas Laws within the Matter unit. Viz/Presentation Method: Tabs, accordions, styled lists. Interaction: Clicks. Justification: Final version incorporating all pedagogical components and user-requested thematic shifts and resources. Library/Method: Tailwind CSS, Vanilla JS. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- Visualization & Content Choices: Report Info: Pennsylvania High School NGSS Storyline-Driven Chemistry Curriculum (V17 - Final AMTA Model Integration). Goal: Interactive exploration of a curriculum aligned with PA STEELS, SAS, SBG principles, now including an AMTA-aligned "Model So Far" progression. Viz/Presentation Method: Tabs, accordions, styled lists. Interaction: Clicks. Justification: Final version incorporating all pedagogical components and user-requested thematic shifts and resources. Library/Method: Tailwind CSS, Vanilla JS. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="bg-stone-100 text-stone-800 antialiased">
@@ -129,12 +129,13 @@
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
         <header class="text-center mb-8">
             <h1 class="text-3xl sm:text-4xl font-bold text-sky-700">Pennsylvania High School NGSS Storyline-Driven Chemistry Curriculum</h1>
-            <p class="text-stone-600 mt-2">An Interactive Exploration (V17 - Final AMTA Gas Law Integration)</p>
+            <p class="text-stone-600 mt-2">An Interactive Exploration (V17 - Final AMTA Model Integration)</p>
         </header>
 
         <nav id="main-tabs" class="mb-6 bg-stone-200 rounded-lg shadow p-2 flex flex-wrap justify-center gap-2">
             <button data-tab="introduction" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150 active">Introduction</button>
             <button data-tab="course-overview" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Course Overview</button>
+            <button data-tab="model-so-far" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">The Model So Far</button>
             <button data-tab="phenomena" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Unit Phenomena</button>
             <button data-tab="matter" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Matter</button>
             <button data-tab="atoms" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Atoms</button>
@@ -216,6 +217,80 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="model-so-far" class="tab-content">
+                <h2 class="text-2xl font-semibold text-sky-700 mb-4">The Model So Far: A Progression</h2>
+                <p class="mb-4 text-stone-600">This section outlines the progressive development of our scientific model of matter, a core component of the AMTA (American Modeling Teachers Association) curriculum. With each unit, we add new features to our model based on new evidence, allowing us to explain more complex phenomena.</p>
+                <div id="model-so-far-content">
+                     <div class="mb-6">
+                        <h3 class="model-title">After Unit: Matter</h3>
+                        <div class="p-3 bg-sky-50 rounded-lg border border-sky-200">
+                            <p><strong>The Simple Particle Model & Kinetic Molecular Theory (KMT)</strong></p>
+                            <ul class="list-disc list-inside mt-2">
+                                <li>All matter is composed of tiny, individual particles (atoms or molecules).</li>
+                                <li>These particles are in constant, random motion. Their average kinetic energy is proportional to temperature.</li>
+                                <li>There is empty space between the particles. The amount of space differs for solids, liquids, and gases.</li>
+                                <li>Particles collide with each other and the walls of their container, creating pressure (for gases).</li>
+                                <li>The relationships between Pressure (P), Volume (V), and Temperature (T) for a gas can be predicted based on the motion and collisions of these particles.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="mb-6">
+                        <h3 class="model-title">After Unit: Atoms</h3>
+                        <div class="p-3 bg-sky-50 rounded-lg border border-sky-200">
+                            <p><strong>The Nuclear Atom Model</strong></p>
+                            <ul class="list-disc list-inside mt-2">
+                                <li>The particles (atoms) have internal structure.</li>
+                                <li>At the center of each atom is a tiny, dense, positively-charged nucleus, which contains protons (p⁺) and neutrons (n⁰).</li>
+                                <li>The number of protons defines the element's identity (atomic number).</li>
+                                <li>Surrounding the nucleus are negatively-charged electrons (e⁻) in specific energy levels or shells.</li>
+                                <li>In a neutral atom, the number of electrons equals the number of protons.</li>
+                                <li>Isotopes of an element have the same number of protons but different numbers of neutrons. Some isotopes have unstable nuclei and undergo radioactive decay.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="mb-6">
+                        <h3 class="model-title">After Unit: Bonding</h3>
+                        <div class="p-3 bg-sky-50 rounded-lg border border-sky-200">
+                            <p><strong>The Bonding & Intermolecular Forces (IMF) Model</strong></p>
+                            <ul class="list-disc list-inside mt-2">
+                                <li>The electrons in the outermost energy level (valence electrons) are responsible for chemical bonding.</li>
+                                <li>Atoms bond to achieve a more stable electron configuration, typically by gaining, losing (ionic bonding), or sharing (covalent bonding) valence electrons.</li>
+                                <li>The 3D shape of a molecule is determined by the repulsion between electron pairs (VSEPR theory).</li>
+                                <li>The sharing of electrons can be unequal (polar covalent) or equal (nonpolar covalent), creating bond dipoles.</li>
+                                <li>The overall shape and bond polarities determine if a molecule is polar or nonpolar.</li>
+                                <li>Weak attractive forces, called intermolecular forces (IMFs), exist *between* molecules and determine bulk properties like boiling point and solubility.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="mb-6">
+                        <h3 class="model-title">After Unit: Reactions</h3>
+                        <div class="p-3 bg-sky-50 rounded-lg border border-sky-200">
+                            <p><strong>The Conservation Model</strong></p>
+                            <ul class="list-disc list-inside mt-2">
+                                <li>Chemical reactions are processes that rearrange atoms to form new substances.</li>
+                                <li>Atoms are not created or destroyed in a chemical reaction; they are conserved.</li>
+                                <li>A balanced chemical equation is a model that represents this conservation of atoms.</li>
+                                <li>The mole is a quantitative unit that connects the atomic scale (number of particles) to the macroscopic scale (mass in grams).</li>
+                                <li>The ratios in a balanced equation represent mole ratios, allowing for quantitative predictions (stoichiometry).</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="mb-6">
+                        <h3 class="model-title">After Unit: Chemical Engineering Concepts</h3>
+                        <div class="p-3 bg-sky-50 rounded-lg border border-sky-200">
+                            <p><strong>The Dynamic Reaction Model</strong></p>
+                            <ul class="list-disc list-inside mt-2">
+                                <li>Energy is stored in chemical bonds. The overall energy change of a reaction (enthalpy, ΔH) depends on the energy required to break bonds versus the energy released when forming new ones.</li>
+                                <li>For a reaction to occur, particles must collide with sufficient energy (activation energy) and correct orientation (Collision Theory).</li>
+                                <li>The rate of a reaction can be controlled by changing factors that affect collision frequency and energy (temperature, concentration, surface area, catalysts).</li>
+                                <li>Many reactions are reversible and can reach a state of dynamic equilibrium where the forward and reverse reaction rates are equal.</li>
+                                <li>A system at equilibrium will shift to counteract a stress (Le Châtelier's Principle), allowing engineers to control the yield of a reaction.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -386,7 +461,7 @@
             learningObjectives: `<ul class="list-disc list-inside"><li>Differentiate physical/chemical properties & changes.</li><li>Classify matter as elements, compounds, or mixtures.</li><li>Describe and apply separation techniques based on physical properties.</li><li>Measure mass/volume and calculate density.</li><li>Develop simple particle models for states of matter.</li><li>Describe the relationships between pressure, volume, and temperature for gases (Gas Laws).</li></ul>`,
             paSteelsStandardsFramework: `<h4 class="framework-title">Overarching PA Framework Alignment:</h4><p><strong>Big Idea (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.bigIdea}</p><p><strong>Essential Question (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.essentialQuestion}</p><hr class="my-2"><h4 class="framework-title">Targeted PA STEELS Standards for this Unit:</h4>${formatStandardDisplay("3.2.9-12.B")}`,
             vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.B"].vocabulary}, matter, volume, physical/chemical change, element, compound, mixture (homogeneous, heterogeneous), solution, solvent, solute, filtration, distillation, chromatography, particle model, states of matter, purity, pressure, gas laws, Kinetic Molecular Theory.</p>`,
-            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: A sample of crude oil arrives at a refinery near Philadelphia. How is this complex, black liquid separated into useful products like gasoline, diesel, and asphalt? This drives the need to understand mixtures and separation based on physical properties like boiling point.</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Lab:</strong> "Refinery Challenge: Mixture Separation." Students are given a model "crude oil" mixture and must design a procedure to separate its components.</li><li><strong>Lab:</strong> "Identifying an Unknown Liquid" via density.</li><li><strong>Lab:</strong> "Gas Laws Lab" using pressure sensors and syringes to investigate the relationship between pressure and volume.</li><li><strong>POGIL:</strong> "Classification of Matter," "Density," "Gas Laws."</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to share lab findings and develop consensus models for classifying and separating matter, and for the relationships between P, V, and T in gases. Direct instruction on properties, changes, density, distillation, and the Gas Laws.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research physical separation techniques used in PA's historical iron furnace operations or modern food processing.</li><li><strong>Design Challenge:</strong> Design an efficient separation sequence for a complex industrial byproduct mixture.</li></ul>`,
+            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: A sample of crude oil arrives at a refinery near Philadelphia. How is this complex, black liquid separated into useful products like gasoline, diesel, and asphalt? This drives the need to understand mixtures and separation based on physical properties like boiling point.</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Lab:</strong> "Refinery Challenge: Mixture Separation." Students are given a model "crude oil" mixture and must design a procedure to separate its components.</li><li><strong>Lab:</strong> "Identifying an Unknown Liquid" via density.</li><li><strong>Lab:</strong> "Gas Laws Lab" using pressure sensors and syringes to investigate the relationship between pressure and volume.</li><li><strong>POGIL:</strong> "Classification of Matter," "Density," "Gas Laws."</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to share lab findings and develop consensus models for classifying and separating matter, and for the relationships between P, V, and T in gases. Direct instruction on properties, changes, density, distillation, and the Gas Laws.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research physical separation techniques used in PA's historical iron furnace operations (e.g., separating slag from iron) or modern food processing.</li><li><strong>Design Challenge:</strong> Design an efficient separation sequence for a complex industrial byproduct mixture.</li></ul>`,
             assessmentAndResources: `
                 <h5 class="unit-section-title">Assessments & Resources</h5>
                 <div class="space-y-4">
@@ -663,13 +738,14 @@
                 <tr><td>77</td><td>Chemical Engineering</td><td>Reaction Rates and Collision Theory</td><td>POGIL: "Collision Theory"; Intro to energy diagrams & activation energy</td><td>3.2.9-12.E</td></tr>
                 <tr><td>78-79</td><td>Chemical Engineering</td><td>Lab: Factors Affecting Reaction Rates</td><td>Investigate effects of concentration, temperature, surface area</td><td>SEP: Planning Investigations</td></tr>
                 <tr><td>80</td><td>Chemical Engineering</td><td>Whiteboarding & Analyzing Rate Data</td><td>Groups present lab results and explain using collision theory</td><td>SEP: Constructing Explanations</td></tr>
-                <tr><td>81</td><td>Chemical Engineering</td><td>Energy in Reactions: Enthalpy & Bond Energy</td><td>Introduction to ΔH; POGIL or activity on calculating enthalpy from bond energies</td><td>3.2.9-12.D</td></tr>
+                <tr><td>81</td><td>Chemical Engineering</td><td>Catalysts and Enzymes</td><td>Demo: Decomposition of H₂O₂ with a catalyst (MnO₂ or yeast)</td><td>3.2.9-12.E</td></tr>
                 <tr><td>82</td><td>Chemical Engineering</td><td>Introduction to Dynamic Equilibrium</td><td>Demo: Reversible reaction (e.g., CoCl₂ system); PhET simulation</td><td>3.2.9-12.F</td></tr>
                 <tr><td>83-84</td><td>Chemical Engineering</td><td>Le Chatelier's Principle</td><td>POGIL: "Le Chatelier's Principle"; Predicting shifts in equilibrium</td><td>3.2.9-12.F</td></tr>
-                <tr><td>85</td><td>Chemical Engineering</td><td>PA Connection: Haber-Bosch Process</td><td>Case study on optimizing an industrial reaction</td><td>3.2.9-12.F</td></tr>
-                <tr><td>86</td><td>Chemical Engineering</td><td>Review & Quizizz</td><td>Practice problems, conceptual review</td><td>All Unit PEs</td></tr>
-                <tr><td>87</td><td>Chemical Engineering</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.D, E, F</td></tr>
-                <tr><td>88-90</td><td>(Buffer)</td><td>**Final Project Presentations / Course Culmination / Final Exam Review**</td><td>Jewelry/Photo collaborations presented, or Final Exam Review</td><td></td></tr>
+                <tr><td>85</td><td>Chemical Engineering</td><td>Energy in Reactions: Enthalpy & Bond Energy</td><td>Introduction to ΔH; POGIL or activity on calculating enthalpy from bond energies</td><td>3.2.9-12.D</td></tr>
+                <tr><td>86</td><td>Chemical Engineering</td><td>PA Connection: Haber-Bosch Process</td><td>Case study on optimizing an industrial reaction</td><td>3.2.9-12.F</td></tr>
+                <tr><td>87</td><td>Chemical Engineering</td><td>Review & Quizizz</td><td>Practice problems, conceptual review</td><td>All Unit PEs</td></tr>
+                <tr><td>88</td><td>Chemical Engineering</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.D, E, F</td></tr>
+                <tr><td>89-90</td><td>(Buffer)</td><td>**Final Project Presentations / Course Culmination / Final Exam Review**</td><td>Jewelry/Photo collaborations presented, or Final Exam Review</td><td></td></tr>
             </tbody>
         </table>
     `;
@@ -860,10 +936,6 @@
 
         switchTab("introduction");
     });
-
-</script>
-</body>
-</html>
 
 </script>
 </body>
