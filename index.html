@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Chemistry Curriculum SPA (PA STEELS & SBG Aligned)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-button.active {
+            background-color: #0369a1; /* sky-700 */
+            color: white;
+        }
+        .accordion-content {
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .accordion-content.open {
+            display: block;
+            max-height: 6000px; /* Increased significantly for long content */
+        }
+        .accordion-button.open svg {
+            transform: rotate(180deg);
+        }
+        .scrollbar-thin {
+            scrollbar-width: thin;
+            scrollbar-color: #a1a1aa #e5e5e5; /* zinc-400 stone-200 */
+        }
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 8px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #e5e5e5; /* stone-200 */
+            border-radius: 10px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background-color: #a1a1aa; /* zinc-400 */
+            border-radius: 10px;
+            border: 2px solid #e5e5e5; /* stone-200 */
+        }
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        th, td {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            padding: 0.75rem; 
+            vertical-align: top;
+        }
+        .accordion-content ul, .accordion-content ol {
+            margin-left: 1.5rem; 
+            margin-bottom: 0.75rem; 
+        }
+        .accordion-content ul {
+            list-style-type: disc;
+        }
+        .accordion-content ol {
+            list-style-type: decimal;
+        }
+        .accordion-content li {
+            margin-bottom: 0.25rem; 
+        }
+        .unit-section-title, .standard-title, .framework-title, .assessment-subtitle, .phenomena-title {
+             font-size: 1.25rem; /* text-xl */
+             font-weight: 600; /* font-semibold */
+             color: #075985; /* sky-800 */
+             margin-top: 1rem; 
+             margin-bottom: 0.5rem; 
+             border-bottom: 1px solid #e5e7eb; /* border-stone-200 */
+             padding-bottom: 0.25rem; 
+        }
+         .assessment-subtitle, .phenomena-title {
+            font-size: 1.125rem; /* text-lg */
+            color: #0c4a6e; /* sky-800 */
+            border-bottom: none;
+            margin-top: 1.5rem;
+         }
+        .framework-component {
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid #38bdf8; /* sky-400 */
+        }
+        .framework-component strong {
+            color: #0c4a6e; /* sky-800 */
+        }
+        .activity-list-title {
+            font-weight: 500; 
+            color: #0c4a6e; 
+            margin-top: 0.75rem; 
+            margin-bottom: 0.25rem; 
+        }
+        .pacing-table, .rubric-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+        .pacing-table th, .pacing-table td, .rubric-table th, .rubric-table td {
+            border: 1px solid #d4d4d8; /* zinc-300 */
+            text-align: left;
+        }
+        .pacing-table th, .rubric-table th {
+            background-color: #f4f4f5; /* zinc-100 */
+        }
+        .pacing-table tr:nth-child(even), .rubric-table tr:nth-child(even) {
+            background-color: #fafafa; /* zinc-50 */
+        }
+        .rubric-table th, .rubric-table td {
+             vertical-align: middle;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Sky Blue accents -->
+    <!-- Application Structure Plan: Expanded to 5 units for better content distribution and standards coverage. Assessments now explicitly reference performance tasks from The Wonder of Science. The evaluation section in each unit details a standards-based grading (SBG) approach, focusing on proficiency levels for targeted PEs. -->
+    <!-- Visualization & Content Choices: Report Info: Pennsylvania High School NGSS Storyline-Driven Chemistry Curriculum (V16 - Final Phenomena & Assessment Links). Goal: Interactive exploration of a curriculum aligned with PA STEELS, SAS, SBG principles, and specific local industrial/collaborative projects. Viz/Presentation Method: Tabs, accordions, styled lists. Interaction: Clicks. Justification: Final version incorporating all pedagogical components and user-requested thematic shifts and resources. Library/Method: Tailwind CSS, Vanilla JS. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-stone-100 text-stone-800 antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-sky-700">Pennsylvania High School NGSS Storyline-Driven Chemistry Curriculum</h1>
+            <p class="text-stone-600 mt-2">An Interactive Exploration (V16 - Final Phenomena & Assessment Links)</p>
+        </header>
+
+        <nav id="main-tabs" class="mb-6 bg-stone-200 rounded-lg shadow p-2 flex flex-wrap justify-center gap-2">
+            <button data-tab="introduction" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150 active">Introduction</button>
+            <button data-tab="course-overview" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Course Overview</button>
+            <button data-tab="phenomena" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Unit Phenomena</button>
+            <button data-tab="matter" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Matter</button>
+            <button data-tab="atoms" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Atoms</button>
+            <button data-tab="bonding" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Bonding</button>
+            <button data-tab="reactions" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Reactions</button>
+            <button data-tab="chemical-engineering" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Chemical Engineering</button>
+            <button data-tab="pacing-guide" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Pacing Guide</button>
+            <button data-tab="conclusion" class="tab-button text-sm sm:text-base px-3 py-2 sm:px-4 sm:py-2 font-medium rounded-md hover:bg-sky-600 hover:text-white transition-colors duration-150">Conclusion</button>
+        </nav>
+
+        <main id="tab-content-container" class="bg-white p-4 sm:p-6 rounded-lg shadow-lg min-h-[70vh] max-h-[80vh] overflow-y-auto scrollbar-thin">
+            
+            <section id="introduction" class="tab-content active">
+                <h2 class="text-2xl font-semibold text-sky-700 mb-4">Introduction: A Storyline & Modeling Approach to Chemistry in Pennsylvania</h2>
+                <div class="space-y-3 text-stone-700 leading-relaxed">
+                    <h3 class="text-xl font-medium text-sky-600">Philosophy of this Course</h3>
+                    <p>This chemistry course is designed to immerse students in the role of sense-makers and problem-solvers. Each unit is launched by an engaging, complex phenomenon—often rooted in Pennsylvania's unique industrial, commercial, and manufacturing contexts—that ignites student curiosity. These authentic questions then drive a coherent storyline of investigation, evidence-gathering, and collaborative modeling. Students actively construct their understanding of core chemical principles, not as isolated facts, but as tools to explain the initial phenomenon and address broader, related questions.</p>
+                    <p>The pedagogical framework draws heavily from the American Modeling Teachers Association (AMTA) curriculum, which emphasizes that students develop deep conceptual understanding by building, testing, and refining explanatory models. This student-centered approach is fully aligned with the Pennsylvania Science, Technology & Engineering, Environmental Literacy & Sustainability (STEELS) standards, as detailed in the PA Department of Education's High School Physical Science Curriculum Framework. These standards champion three-dimensional learning: the integration of Disciplinary Core Ideas (DCIs), Science and Engineering Practices (SEPs), and Crosscutting Concepts (CCCs). This NGSS-aligned, storyline-driven structure aims to make chemistry relevant, engaging, and intellectually stimulating, preparing students to apply scientific reasoning to real-world challenges.</p>
+                
+                    <h3 class="text-xl font-medium text-sky-600 mt-4">Pennsylvania Context and Course Goals</h3>
+                    <p>Recognizing Pennsylvania's rich heritage in industry and manufacturing, its diverse natural resources, and its contemporary environmental and energy landscapes, this course seeks to connect chemistry to students' lived experiences. By grounding phenomena and applications in the Commonwealth's industrial history—from the iron furnaces of Wrightsville and Columbia to the modern manufacturing and food processing plants of York County—we aim to demonstrate the immediate relevance of chemistry. The course is paced for a single semester with daily 70-minute classes, allowing for in-depth exploration and modeling activities.</p>
+                    <p>Key goals include enabling students to:</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li>Explain chemical phenomena using progressively sophisticated particle and energy models.</li>
+                        <li>Master PA STEELs Science and Engineering Practices through authentic inquiry, as outlined in the PA Physical Science Framework.</li>
+                        <li>Apply Crosscutting Concepts detailed in the PA Framework to analyze and connect chemical systems.</li>
+                        <li>Understand the societal and industrial implications of chemistry, particularly within PA, integrating ELS and T&E standards.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="course-overview" class="tab-content">
+                <h2 class="text-2xl font-semibold text-sky-700 mb-4">Course Overview: A Semester of Chemical Storylines (PA STEELS & SBG Integrated)</h2>
+                <div class="space-y-3 text-stone-700 leading-relaxed">
+                    <p>This semester-long chemistry course is now structured into five major thematic units to ensure more rigorous and comprehensive coverage of the PA STEELS standards. Each unit is designed to progressively build students' understanding of fundamental chemical principles by investigating compelling questions related to Pennsylvania's industrial, commercial, and technological landscape. The content, including Big Ideas, Essential Questions, specific standard language (DCIs, SEPs, CCCs), and Vocabulary, is directly drawn from or strongly aligned with the Pennsylvania Department of Education's High School Physical Science Curriculum Framework for STEELS standards.</p>
+                    <p>A core component of this curriculum is its commitment to **Standards-Based Grading (SBG)**. Student progress will be measured against specific PA STEELS Performance Expectations. The focus is on demonstrating proficiency and growth over time, with opportunities for reassessment. This approach separates academic achievement from work habits, providing a clearer picture of what students know and can do. Performance will be evaluated using a diverse suite of tools, including DCI-focused performance tasks, Wonder of Science 3D assessments, AMTA content tests, and Quizizz learning checks. Student learning will also be measured and guided by resources from the PA SAS (Standards Aligned System) portal, including state-provided rubrics and assessment item samplers.</p>
+                
+                    <h3 class="text-xl font-medium text-sky-600 mt-4">Unit Structure at a Glance</h3>
+                    <div class="overflow-x-auto scrollbar-thin rounded-lg border border-stone-200 my-4">
+                        <table class="min-w-full divide-y divide-stone-200">
+                            <thead class="bg-stone-50">
+                                <tr>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Unit Title</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Overarching Question</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Approx. Time (Weeks)</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Core Chemistry Focus & Key PA STEELS PEs</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-stone-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-stone-900">Matter</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">How do we describe, classify, and separate the "stuff" that makes up our world?</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">~3 weeks</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">Classification of matter, properties & changes, density, separation techniques, intro particle models. (Focus: 3.2.9-12.B)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-stone-900">Atoms</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">What are the fundamental building blocks of matter, and how does their structure explain the existence of different elements?</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">~4 weeks</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">Atomic theory, subatomic particles, isotopes, nuclear stability/decay, periodic table & trends. (Focus: 3.2.9-12.A, H)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-stone-900">Bonding</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">How do atoms connect to form the vast array of substances, and how do those connections dictate properties?</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">~4 weeks</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">Chemical bonding (ionic, covalent, metallic), Lewis structures, VSEPR, polarity, intermolecular forces (IMFs). (Focus: 3.2.9-12.N, aspects of A, B)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-stone-900">Reactions</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">How can we describe and quantify the rearrangement of atoms during chemical changes?</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">~4 weeks</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">Reaction types, balancing equations, mole concept, stoichiometry, limiting reactants, percent yield. (Focus: 3.2.9-12.C, G)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-stone-900">Chemical Engineering Concepts</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">How do we control chemical reactions to get what we want, when we want it?</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">~3 weeks</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">Thermochemistry (enthalpy), reaction rates & collision theory, chemical equilibrium & Le Chatelier’s Principle. (Focus: 3.2.9-12.D, E, F)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="phenomena" class="tab-content">
+                <h2 class="text-2xl font-semibold text-sky-700 mb-4">Unit Anchoring Phenomena & Standards Alignment</h2>
+                <div id="phenomena-content">
+                    <!-- Phenomena content will be inserted here by JavaScript -->
+                </div>
+            </section>
+
+            <section id="matter" class="tab-content">
+                <!-- Content for Matter unit will be inserted here by JavaScript -->
+            </section>
+
+            <section id="atoms" class="tab-content">
+                <!-- Content for Atoms unit will be inserted here by JavaScript -->
+            </section>
+
+            <section id="bonding" class="tab-content">
+                <!-- Content for Bonding unit will be inserted here by JavaScript -->
+            </section>
+            
+            <section id="reactions" class="tab-content">
+                <!-- Content for Reactions unit will be inserted here by JavaScript -->
+            </section>
+
+            <section id="chemical-engineering" class="tab-content">
+                <!-- Content for Chemical Engineering Concepts unit will be inserted here by JavaScript -->
+            </section>
+
+            <section id="pacing-guide" class="tab-content">
+                <h2 class="text-2xl font-semibold text-sky-700 mb-4">90-Day Pacing Guide (70-Minute Periods)</h2>
+                <p class="mb-4 text-stone-600">This guide provides a day-by-day outline for the five-unit, semester-long chemistry course. It is designed to be a flexible map, with extra days built in for review, re-teaching, and assessments.</p>
+                <div id="pacing-guide-content" class="overflow-x-auto scrollbar-thin">
+                    <!-- Pacing guide table will be inserted here by JavaScript -->
+                </div>
+            </section>
+            
+            <section id="conclusion" class="tab-content">
+                <h2 class="text-2xl font-semibold text-sky-700 mb-4">Conclusion: Cultivating Chemical Thinkers for Pennsylvania's Future</h2>
+                <div class="space-y-3 text-stone-700 leading-relaxed">
+                    <p>This NGSS storyline-driven, AMTA-inspired chemistry course, now deeply integrated with the Pennsylvania Department of Education's High School Physical Science Curriculum Framework for STEELS standards, is meticulously designed to foster a robust and applicable understanding of chemical principles. By centering learning around compelling, locally relevant phenomena and guiding students through cycles of inquiry, modeling, and argumentation, the course aims to move beyond rote memorization towards genuine scientific sense-making. The explicit inclusion of PA's official Big Ideas, Essential Questions, standard-specific DCIs, SEPs, CCCs, and vocabulary ensures that students are not only mastering core chemical concepts but are also becoming proficient in the cognitive tools and practices outlined by the Commonwealth for science education.</p>
+                    <p>The explicit integration of Environmental Literacy & Sustainability (ELS) and Technology & Engineering (T&E) standards throughout the units—from investigating manufacturing quality control and material properties to exploring industrial processes and sustainable design—highlights the profound impact of chemistry on society and the economy. Students are challenged to consider the broader implications of chemical knowledge, preparing them to be responsible and informed citizens equipped to engage with Pennsylvania's unique industrial and technological landscape.</p>
+                    <p>The adoption of a **Standards-Based Grading** framework, supported by authentic performance assessments, ensures that evaluation is focused on student proficiency and growth. The overall assessment strategy is guided by the performance measures, item samplers, and rubrics available through the Pennsylvania SAS portal to ensure alignment with state expectations. Regular review and practice with questions formatted similarly to those on the PA Keystone Exams will be integrated to support student success on state-level assessments.</p>
+                    <p>Ultimately, this course endeavors to equip Pennsylvania students with not just a knowledge of chemistry, but with the critical thinking, problem-solving, and collaborative skills inherent in scientific inquiry. They will learn to see chemistry not as an abstract subject, but as a vital tool for understanding their world, addressing its challenges, and contributing to a sustainable future for the Commonwealth and beyond, fully aligned with the vision of the PA STEELS standards.</p>
+                </div>
+            </section>
+            
+            <!-- Hidden module overview sections, not directly part of the tab navigation -->
+            <div id="moduleA" style="display: none;"></div>
+            <div id="moduleB" style="display: none;"></div>
+
+
+        </main>
+    </div>
+
+    <footer class="text-center py-6 text-sm text-stone-500">
+        Interactive Curriculum SPA &copy; 2025. NGSS Storyline-Driven Chemistry for PA (PA STEELS & SBG Integrated).
+    </footer>
+
+<script>
+    const paFrameworkData = {
+        "structureAndPropertiesOfMatter": {
+            "bigIdea": "All forms of matter exist as a result of the combination or rearrangement of atoms.",
+            "essentialQuestion": "How do particles combine to form the variety of matter one observes?"
+        },
+        "chemicalReactions": {
+            "bigIdea": "The atoms of some substances combine or rearrange to form new substances that have different properties.",
+            "essentialQuestion": "How do substances combine or change (react) to make new substances? How does one characterize and explain these reactions and make predictions about them?"
+        },
+        "nuclearProcesses": {
+            "bigIdea": "Phenomena involving nuclei explain the formation of the elements, radioactivity, and the release of energy.",
+            "essentialQuestion": "What forces hold nuclei together and mediate nuclear processes?"
+        },
+        "energyDefinitions": {
+            "bigIdea": "Energy can be modeled as either motions of particles or as being stored in force fields.",
+            "essentialQuestion": "What is energy?"
+        },
+        "energyConservationAndTransfer": {
+            "bigIdea": "The total change of energy in any system is always equal to the total energy transferred into or out of the system.",
+            "essentialQuestion": "What is meant by conservation of energy? How is energy transferred between objects or systems?"
+        },
+        "standards": {
+            "3.2.9-12.A": {
+                "text": "Use the periodic table as a model to predict the relative properties of elements based on the patterns of electrons in the outermost energy level of atoms.",
+                "sep": "Developing and Using Models: Use a model to predict the relationships between systems or between components of a system.",
+                "dci": "Each atom has a charged substructure consisting of a nucleus, which is made of protons and neutrons, surrounded by electrons. The periodic table orders elements horizontally by the number of protons in the atom's nucleus and places those with similar chemical properties in columns. The repeating patterns of this table reflect patterns of outer electron states.",
+                "ccc": "Patterns: Different patterns may be observed at each of the scales at which a system is studied and can provide evidence for causality in explanations of phenomena.",
+                "vocabulary": "proton, neutron, electron, atomic number, mass number, isotope, electron affinity, shielding effect, electronegativity, atomic radius, ionization energy, valence electrons, electron shells, octet rule, orbital diagrams, electron configuration, orbitals, sublevels, periodic table, patterns"
+            },
+            "3.2.9-12.B": {
+                "text": "Plan and conduct an investigation to gather evidence to compare the structure of substances at the bulk scale to infer the strength of electrical forces between particles.",
+                "sep": "Planning and Carrying Out Investigations: Plan and conduct an investigation individually and collaboratively to produce data to serve as the basis for evidence, and in the design: decide on types, how much, and accuracy of data needed to produce reliable measurements and consider limitations on the precision of the data (e.g., number of trials, cost, risk, time), and refine the design accordingly.",
+                "dci": "The structure and interactions of matter at the bulk scale are determined by electrical forces within and between atoms. Attraction and repulsion between electric charges at the atomic scale explain the structure, properties, and transformations of matter, as well as the contact forces between material objects.",
+                "ccc": "Patterns: Different patterns may be observed at each of the scales at which a system is studied and can provide evidence for causality in explanations of phenomena.",
+                "vocabulary": "intermolecular forces, ions, physical properties, coulomb's law, Lewis dot structures, lattice energy, patterns"
+            },
+            "3.2.9-12.C": {
+                "text": "Construct and revise an explanation for the outcome of a simple chemical reaction based on the outermost electron states of atoms, trends in the periodic table, and knowledge of the patterns of chemical properties.",
+                "sep": "Constructing Explanations and Designing Solutions: Construct and revise an explanation based on valid and reliable evidence obtained from a variety of sources (including students' own investigations, models, theories, simulations, peer review) and the assumption that theories and laws that describe the natural world operate today as they did in the past and will continue to do so in the future.",
+                "dci": "The periodic table orders elements horizontally by the number of protons in the atom's nucleus and places those with similar chemical properties in columns. The repeating patterns of this table reflect patterns of outer electron states. The fact that atoms are conserved, together with knowledge of the chemical properties of the elements involved, can be used to describe and predict chemical reactions.",
+                "ccc": "Patterns: Different patterns may be observed at each of the scales at which a system is studied and can provide evidence for causality in explanations of phenomena.",
+                "vocabulary": "reactants, products, types of bonds, types of reactions, reactivity, patterns"
+            },
+            "3.2.9-12.D": {
+                "text": "Develop a model to illustrate that the release or absorption of energy from a chemical reaction system depends upon the changes in total bond energy.",
+                "sep": "Developing and Using Models: Develop a model based on evidence to illustrate the relationships between systems or between components of a system.",
+                "dci": "A stable molecule has less energy than the same set of atoms separated; one must provide at least this energy in order to take the molecule apart. Chemical processes, their rates, and whether or not energy is stored or released can be understood in terms of the collisions of molecules and the rearrangements of atoms into new molecules, with consequent changes in the sum of all bond energies in the set of molecules that are matched by changes in kinetic energy.",
+                "ccc": "Energy and Matter: Changes of energy and matter in a system can be described in terms of energy and matter flows into, out of, and within that system.",
+                "vocabulary": "energy transfers, types of energy, bond and binding energy, models, systems"
+            },
+            "3.2.9-12.E": {
+                "text": "Apply scientific principles and evidence to provide an explanation about the effects of changing the temperature or concentration of the reacting particles on the rate at which a reaction occurs.",
+                "sep": "Constructing Explanations and Designing Solutions: Apply scientific principles and evidence to provide an explanation of phenomena and solve design problems, taking into account possible unanticipated effects.",
+                "dci": "Chemical processes, their rates, and whether or not energy is stored or released can be understood in terms of the collisions of molecules and the rearrangements of atoms into new molecules, with consequent changes in the sum of all bond energies in the set of molecules that are matched by changes in kinetic energy.",
+                "ccc": "Patterns: Different patterns may be observed at each of the scales at which a system is studied and can provide evidence for causality in explanations of phenomena.",
+                "vocabulary": "collision theory, chemical reactions, reaction rate, reactants, solutions, temperature, concentration, solubility, patterns, scientific principles"
+            },
+            "3.2.9-12.F": {
+                "text": "Refine the design of a chemical system by specifying a change in conditions that would produce increased amounts of products at equilibrium.",
+                "sep": "Constructing Explanations and Designing Solutions: Refine a solution to a complex real-world problem, based on scientific knowledge, student-generated sources of evidence, prioritized criteria, and tradeoff considerations.",
+                "dci": "In many situations, a dynamic and condition-dependent balance between a reaction and the reverse reaction determines the numbers of all types of molecules present. Criteria may need to be broken down into simpler ones that can be approached systematically, and decisions about the priority of certain criteria over others (trade-offs) may be needed.",
+                "ccc": "Stability and Change: Much of science deals with constructing explanations of how things change and how they remain stable.",
+                "vocabulary": "equilibrium, percent yield, Le Chatelier's Principle, design"
+            },
+            "3.2.9-12.G": {
+                "text": "Use mathematical representations to support the claim that atoms, and therefore mass, are conserved during a chemical reaction.",
+                "sep": "Using Mathematics and Computational Thinking: Use mathematical representations of phenomena to support claims.",
+                "dci": "The fact that atoms are conserved, together with knowledge of the chemical properties of the elements involved, can be used to describe and predict chemical reactions. In nuclear processes, atoms are not conserved, but the total number of protons plus neutrons is conserved. (Connections to Nature of Science: Science assumes the universe is a vast single system in which basic laws are consistent.)",
+                "ccc": "Energy and Matter: In nuclear processes, atoms are not conserved, but the total number of protons plus neutrons is conserved.",
+                "vocabulary": "molar mass, balancing equations, stoichiometry, law of conservation of matter, nuclear processes"
+            },
+             "3.2.9-12.H": {
+                "text": "Develop models to illustrate the changes in the composition of the nucleus of the atom and the energy released during the processes of fission, fusion, and radioactive decay.",
+                "sep": "Developing and Using Models: Develop a model based on evidence to illustrate the relationships between systems or between components of a system.",
+                "dci": "Nuclear processes, including fusion, fission, and radioactive decays of unstable nuclei, involve release or absorption of energy. The total number of neutrons plus protons does not change in any nuclear process.",
+                "ccc": "Energy and Matter: In nuclear processes, atoms are not conserved, but the total number of protons plus neutrons is conserved.",
+                "vocabulary": "isotopes, nuclear fission, radioactive decay, stable nuclei, unstable nuclei, half-life, types of radiation (alpha, beta, gamma), nuclear fusion, models"
+            },
+            "3.2.9-12.N": {
+                "text": "Communicate scientific and technical information about why the molecular-level structure is important in the functioning of designed materials.",
+                "sep": "Obtaining, evaluating, and communicating information: Communicate scientific and technical information (e.g. about the process of development and the design and performance of a proposed process or system) in multiple formats (including orally, graphically, textually, and mathematically).",
+                "dci": "Attraction and repulsion between electric charges at the atomic scale explain the structure, properties, and transformations of matter, as well as the contact forces between material objects. The structure and interactions of matter at the bulk scale are determined by electrical forces within and between atoms.",
+                "ccc": "Structure and Function: Investigating or designing new systems or structures requires a detailed examination of the properties of different materials, the structures of different components, and connections of components to reveal its function and/or solve a problem.",
+                "vocabulary": "molecular structure, conductivity, polarity, state of matter, friction"
+            }
+        }
+    };
+
+    function formatStandardDisplay(standardKey) {
+        const std = paFrameworkData.standards[standardKey];
+        if (!std) return `<p>Standard ${standardKey} details not found.</p>`;
+        return `
+            <div class="standard-item mb-3 p-2 border border-stone-200 rounded-md">
+                <p class="font-semibold text-sky-700">${standardKey}: ${std.text}</p>
+                <div class="framework-component mt-1"><strong>Science and Engineering Practices:</strong> ${std.sep}</div>
+                <div class="framework-component"><strong>Disciplinary Core Idea:</strong> ${std.dci}</div>
+                <div class="framework-component"><strong>Crosscutting Concepts:</strong> ${std.ccc}</div>
+            </div>
+        `;
+    }
+
+    const unitsData = {
+        "matter": {
+            title: "Unit: Matter – How do we describe, classify, and separate the 'stuff' that makes up our world?",
+            storylineConnection: "<p>This unit launches the course by immersing students in a realistic industrial problem, forcing them to confront the need to describe, classify, and separate matter to ensure product quality and consistency.</p>",
+            learningObjectives: `<ul class="list-disc list-inside"><li>Differentiate physical/chemical properties & changes.</li><li>Classify matter as elements, compounds, or mixtures.</li><li>Describe and apply separation techniques based on physical properties.</li><li>Measure mass/volume and calculate density to identify substances.</li><li>Develop simple particle models for states of matter and physical changes.</li></ul>`,
+            paSteelsStandardsFramework: `<h4 class="framework-title">Overarching PA Framework Alignment:</h4><p><strong>Big Idea (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.bigIdea}</p><p><strong>Essential Question (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.essentialQuestion}</p><hr class="my-2"><h4 class="framework-title">Targeted PA STEELS Standards for this Unit:</h4>${formatStandardDisplay("3.2.9-12.B")}`,
+            vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.B"].vocabulary}, matter, volume, physical/chemical change, element, compound, mixture (homogeneous, heterogeneous), solution, solvent, solute, filtration, distillation, chromatography, particle model, states of matter, purity.</p>`,
+            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: A sample of crude oil arrives at a refinery near Philadelphia. How is this complex, black liquid separated into useful products like gasoline, diesel, and asphalt? This drives the need to understand mixtures and separation based on physical properties like boiling point.</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Lab:</strong> "Refinery Challenge: Mixture Separation." Students are given a model "crude oil" mixture (e.g., mineral oil, sand, salt, iron filings) and must design a procedure to separate the components. (Hands-on Investigation)</li><li><strong>Lab:</strong> "Identifying an Unknown Liquid" via density. (Investigation & Data Analysis)</li><li><strong>Activity:</strong> Classifying industrial materials (e.g., iron ore, pig iron, steel) as elements, compounds, or mixtures. (Classification Practice)</li><li><strong>POGIL:</strong> "Classification of Matter," "Density." (Guided Inquiry)</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to share lab findings and develop consensus models for classifying and separating matter. Direct instruction on properties, changes, density, and distillation.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research physical separation techniques used in PA's historical iron furnace operations (e.g., separating slag from iron) or modern food processing.</li><li><strong>Design Challenge:</strong> Design an efficient separation sequence for a complex industrial byproduct mixture.</li></ul>`,
+            assessmentAndResources: `
+                <h5 class="unit-section-title">Assessments & Resources</h5>
+                <div class="space-y-4">
+                    <div>
+                        <h6 class="assessment-subtitle">DCI Performance Assessment</h6>
+                        <p><strong>Scenario:</strong> You are given three unlabeled containers from a steel mill. You are told one contains pure iron (an element), one contains carbon steel (a mixture/alloy), and one contains iron oxide/rust (a compound). <br><strong>Task:</strong> Describe a series of at least two physical or simple chemical tests you could perform to determine which container holds which substance. Explain how the expected results of your tests would differentiate between an element, a compound, and a mixture based on their fundamental definitions.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">3D Performance Assessment (The Wonder of Science)</h6>
+                        <p>The summative performance assessment for this unit is Paul Andersen's **"Properties of Matter"** task from the <a href="https://www.thewonderofscience.com/assessments/hs-ps1-3" target="_blank" class="text-sky-600 hover:underline">HS-PS1-3 collection</a>. Students analyze an unknown industrial contaminant based on measurable properties, requiring them to plan an investigation, analyze data, and construct a model-based explanation.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content-Based Assessment (AMTA)</h6>
+                        <p>The **AMTA Unit 1 Test** serves as the content-based assessment, evaluating understanding of the simple particle model, classification of matter, and conservation principles.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Formative Learning Checks (Quizizz)</h6>
+                        <p>A Quizizz will be used to assess understanding of the following key concepts and vocabulary:</p>
+                        <ul>
+                            <li><strong>Vocabulary:</strong> Matter, mass, volume, density, physical/chemical property, physical/chemical change, element, compound, mixture (hetero/homogeneous), solution, filtration, distillation.</li>
+                            <li><strong>Concepts:</strong> Differentiating between elements, compounds, and mixtures at a particle level. Distinguishing physical vs. chemical changes. Applying the density formula (D=m/V). Identifying appropriate separation techniques for given mixtures.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            standardsBasedGrading: `<h5 class="unit-section-title">Standards-Based Grading Rubric for "Properties of Matter" Assessment</h5>
+                <p class="mb-2">This rubric evaluates student proficiency on PE 3.2.9-12.B by assessing their ability to plan an investigation and construct explanations about material properties.</p>
+                <div class="overflow-x-auto"><table class="rubric-table"><thead><tr><th>Dimension</th><th>4 - Advanced</th><th>3 - Proficient</th><th>2 - Basic</th><th>1 - Below Basic</th></tr></thead><tbody>
+                <tr><td><strong>SEP:</strong> Planning Investigations & Constructing Explanations</td><td>The proposed investigation is logical, detailed, and includes consideration of control variables. The explanation clearly and insightfully connects all evidence to the conclusion with sophisticated reasoning.</td><td>The proposed investigation is logical and complete. The explanation clearly connects evidence to the conclusion with accurate reasoning.</td><td>The proposed investigation is simplistic or missing key steps. The explanation makes a claim but the connection to evidence is weak or incomplete.</td><td>The proposed plan is illogical or not testable. The explanation is missing, irrelevant, or unsupported by evidence.</td></tr>
+                <tr><td><strong>DCI:</strong> PS1.A (Structure & Properties)</td><td>Student demonstrates a nuanced understanding of how a range of physical properties arise from particle arrangement and forces, and can infer bonding type.</td><td>Student accurately explains how observed physical properties are determined by the arrangement of particles and the forces between them.</td><td>Student identifies some physical properties but struggles to connect them to the underlying particle structure or forces.</td><td>Student incorrectly identifies properties or cannot relate them to particle structure.</td></tr>
+                <tr><td><strong>CCC:</strong> Patterns / Structure & Function</td><td>Student not only identifies patterns in the data but also explains *why* these patterns emerge from the relationship between a substance's molecular/atomic structure and its macroscopic function/properties.</td><td>Student identifies clear patterns in the provided data and uses them to explain how the structure of the substance determines its function or properties.</td><td>Student identifies obvious patterns in the data but does not fully connect them to structure and function.</td><td>Student fails to identify relevant patterns or make connections to structure and function.</td></tr>
+                </tbody></table></div>`
+        },
+        "atoms": {
+            title: "Unit: Atoms – What are the fundamental building blocks of matter, and how does their structure explain the existence of different elements?",
+            storylineConnection: "<p>Students investigate the source of unique properties in industrial materials. For example, why does adding carbon to iron create steel with dramatically different properties? This leads to the need to understand the atoms themselves, their internal structure, and how different atoms (elements) vary.</p>",
+            learningObjectives: `<ul class="list-disc list-inside"><li>Describe historical atomic models.</li><li>Identify subatomic particles, their properties, and locations.</li><li>Determine p/n/e for atoms/ions; define isotopes; calculate average atomic mass.</li><li>Describe nuclear stability and common radioactive decay types (alpha, beta, gamma).</li><li>Use the periodic table to predict electron configurations and classify elements/trends.</li></ul>`,
+            paSteelsStandardsFramework: `<h4 class="framework-title">Overarching PA Framework Alignment:</h4><p><strong>Big Idea (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.bigIdea}</p><p><strong>Big Idea (Nuclear Processes):</strong> ${paFrameworkData.nuclearProcesses.bigIdea}</p><hr class="my-2"><h4 class="framework-title">Targeted PA STEELS Standards for this Unit:</h4>${formatStandardDisplay("3.2.9-12.A")}${formatStandardDisplay("3.2.9-12.H")}`,
+            vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.A"].vocabulary}, ${paFrameworkData.standards["3.2.9-12.H"].vocabulary}, atomic theory (Dalton, Thomson, Rutherford, Bohr, Quantum), subatomic particle, ion, average atomic mass, half-life (conceptual).</p>`,
+            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: The burning of steel wool. How can a material we think of as solid and strong, like the steel historically produced in PA, actually burn? What makes it different from a log? And why does it appear to gain weight after burning?</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Activity:</strong> "Isotope Bean Bag Lab" (modeling isotopes and average atomic mass).</li><li><strong>POGIL:</strong> "Atomic Structure," "Electron Configurations," "Periodic Trends."</li><li><strong>Simulations:</strong> PhET "Build an Atom," "Isotopes and Atomic Mass."</li><li><strong>Modeling:</strong> Using manipulatives to model alpha and beta decay.</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to develop consensus models for atomic structure, electron configurations, and nuclear decay. Direct instruction on historical models, subatomic particles, and reading the periodic table.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research the specific elemental composition of different types of steel produced historically in PA and relate it to their properties.</li><li><strong>Application:</strong> Using periodic trends to predict properties of various metals used in manufacturing.</li></ul>`,
+            assessmentAndResources: `
+                <h5 class="unit-section-title">Assessments & Resources</h5>
+                <div class="space-y-4">
+                     <div>
+                        <h6 class="assessment-subtitle">DCI Performance Assessment</h6>
+                        <p><strong>Scenario:</strong> You have two isotopes of Carbon: Carbon-12 and Carbon-14. Carbon-14 is unstable and undergoes beta decay.<br><strong>Task:</strong><br>
+                        1. Draw a simple model for the nucleus of both Carbon-12 and Carbon-14, labeling the protons and neutrons.<br>
+                        2. Explain why both are considered carbon, but only one is radioactive.<br>
+                        3. Write the nuclear equation for the beta decay of Carbon-14 and identify the new element formed. Explain how this process relates to the concept of nuclear stability.</p>
+                    </div>
+                     <div>
+                        <h6 class="assessment-subtitle">3D Performance Assessment (The Wonder of Science)</h6>
+                        <p>The summative performance assessment for this unit is Paul Andersen's **"Nuclear"** task from the <a href="https://www.thewonderofscience.com/assessments/hs-ps1-8" target="_blank" class="text-sky-600 hover:underline">HS-PS1-8 collection</a>. Students model the radioactive decay of a specific isotope (e.g., Cobalt-60 for industrial radiography) and explain the changes in nuclear composition and stability.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content-Based Assessment (AMTA)</h6>
+                        <p>The **AMTA Unit 6 Test ("Atoms Have Internal Structure")** serves as the content-based assessment, evaluating understanding of atomic models, isotopes, and periodic patterns.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content & Vocabulary Learning Checks (Quizizz)</h6>
+                        <p>A Quizizz will be used to assess understanding of the following key concepts and vocabulary:</p>
+                        <ul>
+                            <li><strong>Vocabulary:</strong> Proton, neutron, electron, atomic number, mass number, isotope, valence electrons, electron configuration, periodic trends (radius, electronegativity, ionization energy), radioactive decay, alpha/beta particle.</li>
+                            <li><strong>Concepts:</strong> Determining p/n/e from symbols. Differentiating isotopes. Predicting properties based on periodic position. Identifying parent/daughter nuclei in decay equations.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            standardsBasedGrading: `<h5 class="unit-section-title">Standards-Based Grading Rubric for "Nuclear" Assessment</h5>
+                <p class="mb-2">This rubric evaluates student proficiency on PE 3.2.9-12.H by assessing their ability to model nuclear decay and explain the underlying principles.</p>
+                <div class="overflow-x-auto"><table class="rubric-table"><thead><tr><th>Dimension</th><th>4 - Advanced</th><th>3 - Proficient</th><th>2 - Basic</th><th>1 - Below Basic</th></tr></thead><tbody>
+                <tr><td><strong>SEP:</strong> Developing and Using Models</td><td>The model (nuclear equation) is flawless and insightfully represents the transformation, including correct symbols, mass numbers, and atomic numbers for all particles involved.</td><td>The model is accurate and complete, correctly representing the parent, daughter, and emitted particles in a balanced nuclear equation.</td><td>The model contains minor errors, such as incorrect mass numbers, atomic numbers, or symbols for the particles involved in the decay.</td><td>The model is fundamentally incorrect or does not represent a nuclear process.</td></tr>
+                <tr><td><strong>DCI:</strong> PS1.C (Nuclear Processes)</td><td>Student demonstrates a deep understanding of nuclear stability, explaining *why* the decay occurs (e.g., to improve the n:p ratio) and accurately describing the resulting change in the nucleus.</td><td>Student accurately describes the changes in nuclear composition (protons and neutrons) during the decay process and correctly identifies the resulting element.</td><td>Student correctly identifies the resulting element but provides a weak or inaccurate explanation of the changes in the nucleus.</td><td>Student cannot describe the changes in the nucleus or identify the resulting element.</td></tr>
+                <tr><td><strong>CCC:</strong> Energy and Matter / Stability and Change</td><td>Student explains nuclear decay as a predictable process driven by the system moving toward a more stable, lower-energy state, clearly linking the conservation of nucleons to the transformation of matter and release of energy.</td><td>Student identifies the decay process as a change toward greater nuclear stability and correctly applies the principle of conservation of mass number and atomic number.</td><td>Student recognizes that a change occurs but provides a limited explanation for *why* it happens (i.e., the drive toward stability).</td><td>Student does not connect the process to concepts of stability, change, or conservation.</td></tr>
+                </tbody></table></div>`
+        },
+        "bonding": {
+            title: "Unit: Bonding – How do atoms connect to form the vast array of substances, and how do those connections dictate properties?",
+            storylineConnection: "<p>Students investigate why different industrial materials have such different properties. For example, why is salt (an ionic solid) brittle and water-soluble, while the wax used in casting processes is soft and water-insoluble? This leads to an exploration of the forces *within* and *between* molecules.</p>",
+            learningObjectives: `<ul class="list-disc list-inside"><li>Differentiate between ionic, covalent, and metallic bonding based on electron behavior.</li><li>Draw Lewis structures for simple covalent molecules and polyatomic ions.</li><li>Predict molecular shapes using VSEPR theory.</li><li>Explain bond and molecular polarity.</li><li>Describe intermolecular forces (LDF, dipole-dipole, H-bonding) and relate them to physical properties like boiling point and solubility.</li></ul>`,
+            paSteelsStandardsFramework: `<h4 class="framework-title">Overarching PA Framework Alignment:</h4><p><strong>Big Idea (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.bigIdea}</p><p><strong>Essential Question (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.essentialQuestion}</p><hr class="my-2"><h4 class="framework-title">Targeted PA STEELS Standards for this Unit:</h4>${formatStandardDisplay("3.2.9-12.B")}${formatStandardDisplay("3.2.9-12.N")}`,
+            vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.B"].vocabulary}, ${paFrameworkData.standards["3.2.9-12.N"].vocabulary}, chemical bond, ionic, covalent, metallic, Lewis structure, octet rule, VSEPR theory, molecular geometry, electronegativity, bond polarity, molecular polarity, intermolecular forces (IMFs), London dispersion, dipole-dipole, hydrogen bonding, solubility.</p>`,
+            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: An "indestructible" coating like polyurea is demonstrated (via video). Why is this material flexible yet extremely durable, unlike other plastics or coatings? This is relevant to local heavy manufacturing like BAE Systems in York that requires advanced materials.</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Lab:</strong> "Properties of Ionic vs. Covalent vs. Metallic Substances" (melting point, solubility, conductivity, malleability).</li><li><strong>Activity:</strong> Building molecules with model kits to explore VSEPR shapes.</li><li><strong>POGIL:</strong> "Types of Bonds," "Lewis Structures," "Molecular Geometry," "Intermolecular Forces."</li><li><strong>Simulations:</strong> PhET "Molecule Shapes," "Molecule Polarity."</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to build consensus on bonding types, Lewis structures, and VSEPR rules. Direct instruction on electronegativity, polarity, and the hierarchy of intermolecular forces.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research a specific alloy used in PA's historical steel industry and explain its enhanced properties based on metallic bonding and crystal structure.</li><li><strong>Design Challenge:</strong> "Design a Molecule" with specific properties (e.g., high boiling point, soluble in a nonpolar solvent), justifying the design with bonding and IMF principles.</li></ul>`,
+            assessmentAndResources: `
+                <h5 class="unit-section-title">Assessments & Resources</h5>
+                <div class="space-y-4">
+                    <div>
+                        <h6 class="assessment-subtitle">DCI Performance Assessment</h6>
+                        <p><strong>Scenario:</strong> You are given two simple compounds: methane (CH₄) and water (H₂O).<br><strong>Task:</strong><br>
+                        1. For each compound, draw its Lewis structure and determine its molecular shape and overall polarity.<br>
+                        2. Identify the strongest type of intermolecular force present in a pure sample of each substance.<br>
+                        3. Based on the IMFs, construct an explanation for why water has a much higher boiling point (100°C) than methane (-161.5°C). Your explanation must connect the molecular structure to the forces between molecules.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">3D Performance Assessment (The Wonder of Science)</h6>
+                        <p>The summative performance assessment for this unit is Paul Andersen's **"Intermolecular Forces"** task from the <a href="https://www.thewonderofscience.com/assessments/hs-ps1-3" target="_blank" class="text-sky-600 hover:underline">HS-PS1-3 collection</a>. Students use models (Lewis structures, VSEPR) to construct an explanation for the different boiling points of related substances based on their IMF strength.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content-Based Assessment (AMTA)</h6>
+                        <p>The **AMTA Unit 12 Test ("Bonding")** serves as the content-based assessment, evaluating understanding of bonding theories, Lewis structures, molecular shapes, and their connection to properties.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content & Vocabulary Learning Checks (Quizizz)</h6>
+                        <p>A Quizizz will be used to assess understanding of the following key concepts and vocabulary:</p>
+                        <ul>
+                            <li><strong>Vocabulary:</strong> Ionic/covalent/metallic bond, Lewis structure, VSEPR, molecular geometry, electronegativity, bond/molecular polarity, intermolecular forces (LDF, dipole-dipole, H-bonding).</li>
+                            <li><strong>Concepts:</strong> Differentiating bond types. Drawing valid Lewis structures. Predicting shape based on VSEPR. Determining polarity. Identifying the dominant IMF for a substance. Relating IMF strength to physical properties.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            standardsBasedGrading: `
+                <h5 class="unit-section-title">Standards-Based Grading Rubric for "Intermolecular Forces" Assessment</h5>
+                <p class="mb-2">This rubric evaluates student proficiency on PEs 3.2.9-12.B & N by assessing their ability to model molecular structures and explain properties based on IMFs.</p>
+                <div class="overflow-x-auto"><table class="rubric-table"><thead><tr><th>Dimension</th><th>4 - Advanced</th><th>3 - Proficient</th><th>2 - Basic</th><th>1 - Below Basic</th></tr></thead><tbody>
+                <tr><td><strong>SEP:</strong> Developing Models & Constructing Explanations</td><td>Student flawlessly creates all models (Lewis structures, shapes) and uses them to construct a nuanced explanation that compares the relative strengths of multiple IMFs to account for the data trend.</td><td>Student accurately creates the required models (Lewis structure, shape, polarity) and uses them to construct a clear explanation linking IMF type/strength to the observed properties.</td><td>Student creates models that may have errors. The explanation correctly identifies the IMFs but struggles to link them clearly to molecular structure or the property trend.</td><td>Student creates incorrect models. The explanation is missing, irrelevant, or does not use the models as evidence.</td></tr>
+                <tr><td><strong>DCI:</strong> PS1.A (Structure) & PS2.B (Forces)</td><td>Demonstrates a sophisticated understanding of the hierarchy of electrical forces (covalent bonds > H-bonds > dipole-dipole > LDF) and can clearly articulate how they govern properties.</td><td>Correctly identifies the dominant IMF for each substance and accurately relates the strength of those forces to the observed differences in boiling points.</td><td>Correctly identifies the dominant IMF for most substances but provides a weak or incomplete explanation of how IMF strength relates to boiling point.</td><td>Incorrectly identifies IMFs or cannot relate them to boiling points.</td></tr>
+                <tr><td><strong>CCC:</strong> Structure & Function / Cause & Effect</td><td>Student explains in detail *how* the specific 3D structure and electron distribution (cause) lead to specific IMFs, which in turn dictate the substance's macroscopic function/properties (effect).</td><td>Student clearly explains that the molecule's structure determines its function (its boiling point behavior) by causing specific intermolecular forces.</td><td>Student states that structure affects function but provides a limited explanation of the causal chain (structure → polarity → IMF → property).</td><td>Student fails to connect structure to function or explain the cause-and-effect relationship.</td></tr>
+                </tbody></table></div>`
+        },
+        "reactions": {
+            title: "Unit: Reactions – How can we describe and quantify the rearrangement of atoms during chemical changes?",
+            storylineConnection: "<p>Students investigate how to make a specific product, such as in the synthesis of a pigment for paint or the chemical reactions used in metallurgy or electroplating. This leads to the need to represent reactions with balanced equations and calculate amounts of substances involved.</p>",
+            learningObjectives: `<ul class="list-disc list-inside"><li>Write and balance chemical equations for various reaction types.</li><li>Explain the mole concept and perform mass-mole-particle conversions.</li><li>Perform stoichiometric calculations to determine amounts of reactants and products.</li><li>Identify limiting reactants and calculate theoretical and percent yields.</li></ul>`,
+            paSteelsStandardsFramework: `<h4 class="framework-title">Overarching PA Framework Alignment:</h4><p><strong>Big Idea (Chemical Reactions):</strong> ${paFrameworkData.chemicalReactions.bigIdea}</p><p><strong>Essential Question (Chemical Reactions):</strong> ${paFrameworkData.chemicalReactions.essentialQuestion}</p><hr class="my-2"><h4 class="framework-title">Targeted PA STEELS Standards for this Unit:</h4>${formatStandardDisplay("3.2.9-12.C")}${formatStandardDisplay("3.2.9-12.G")}`,
+            vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.C"].vocabulary}, ${paFrameworkData.standards["3.2.9-12.G"].vocabulary}, mole, Avogadro's number, limiting reactant, excess reactant, theoretical yield, actual yield, percent yield, solution, concentration, molarity, single displacement, redox.</p>`,
+            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: Observing a single displacement reaction, such as placing a piece of zinc metal into a blue solution of copper(II) sulfate and seeing solid copper form on the zinc as the blue color fades. This directly leads into the collaborative projects.</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Lab:</strong> "Types of Reactions" - students perform and classify several small-scale reactions.</li><li><strong>Lab:</strong> "Limiting Reactant & Percent Yield" (e.g., precipitation of calcium carbonate or copper displacement).</li><li><strong>Activity:</strong> Balancing equations with manipulatives or drawings.</li><li><strong>POGIL:</strong> "Stoichiometry," "Limiting Reactants."</li><li><strong>Simulations:</strong> PhET "Reactants, Products and Leftovers."</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to analyze lab data and develop consensus on mole ratios and limiting reactants. Direct instruction on the mole concept and stoichiometric calculations using BCA tables or dimensional analysis.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension (Cross-Curricular Projects):</p><ul><li><strong>Project Option 1: The Chemistry of Jewelry (Collaboration with Jewelry Metals Class):</strong> Chemistry students research the reactivity series and the principles of electroplating/displacement reactions. They then design and run informational stations for the jewelry class, demonstrating how to copper or silver plate objects and explaining the underlying redox chemistry.</li><li><strong>Project Option 2: The Science of the Darkroom (Collaboration with Photography Class):</strong> Chemistry students research the history of photochemistry. They prepare and run educational stations for photography students, demonstrating the precipitation of silver halides (the basis of film) and an alternative process like creating cyanotypes (blueprints), explaining the key chemical reactions involved.</li></ul>`,
+            assessmentAndResources: `
+                <h5 class="unit-section-title">Assessments & Resources</h5>
+                <div class="space-y-4">
+                     <div>
+                        <h6 class="assessment-subtitle">DCI Performance Assessment</h6>
+                        <p><strong>Scenario:</strong> The reaction for the formation of iron (III) oxide (rust) is: 4 Fe(s) + 3 O₂(g) → 2 Fe₂O₃(s).<br><strong>Task:</strong><br>
+                        1. If you start with 112 grams of iron (Fe), what is the theoretical yield of iron (III) oxide in grams? (Molar masses provided).<br>
+                        2. Explain how your calculation supports the Law of Conservation of Mass.<br>
+                        3. If you started with 112 g of Fe and 50 g of O₂, which one would be the limiting reactant? Justify your answer with a calculation.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">3D Performance Assessment (The Wonder of Science)</h6>
+                        <p>The summative performance assessment for this unit is Paul Andersen's **"Chemical Reactions"** task from the <a href="https://www.thewonderofscience.com/assessments/hs-ps1-7" target="_blank" class="text-sky-600 hover:underline">HS-PS1-7 collection</a>. Students use mathematical representations and conservation principles to quantify a real-world reaction like the one in an airbag.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content-Based Assessment (AMTA)</h6>
+                        <p>The **AMTA Unit 7/8 Test (Reactions & Stoichiometry)** serves as the content-based assessment, evaluating understanding of balancing, reaction types, the mole concept, and stoichiometric calculations.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content & Vocabulary Learning Checks (Quizizz)</h6>
+                        <p>A Quizizz will be used to assess understanding of the following key concepts and vocabulary:</p>
+                        <ul>
+                            <li><strong>Vocabulary:</strong> Reactant, product, mole, molar mass, stoichiometry, limiting reactant, excess reactant, theoretical yield, percent yield.</li>
+                            <li><strong>Concepts:</strong> Balancing chemical equations. Classifying reaction types. Converting between grams, moles, and particles. Using mole ratios from balanced equations. Calculating theoretical yield and identifying the limiting reactant.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            standardsBasedGrading: `
+                <h5 class="unit-section-title">Standards-Based Grading Rubric for "Chemical Reactions" Assessment</h5>
+                <p class="mb-2">This rubric evaluates student proficiency on PE 3.2.9-12.G by assessing their ability to use mathematical models to support the law of conservation of mass.</p>
+                <div class="overflow-x-auto"><table class="rubric-table"><thead><tr><th>Dimension</th><th>4 - Advanced</th><th>3 - Proficient</th><th>2 - Basic</th><th>1 - Below Basic</th></tr></thead><tbody>
+                <tr><td><strong>SEP:</strong> Using Mathematics / Developing Models</td><td>Student's mathematical representation is flawless and clearly organized. The model (balanced equation) is correctly developed and used to construct a sophisticated quantitative argument.</td><td>Student correctly uses mathematical representations (stoichiometry) to support the claim about conservation. The model (balanced equation) is accurate.</td><td>Student attempts to use math, but calculations contain minor errors or the setup is unclear. The balanced equation may have errors.</td><td>Calculations are fundamentally incorrect or missing. The equation is unbalanced or irrelevant.</td></tr>
+                <tr><td><strong>DCI:</strong> PS1.B (Conservation of Atoms)</td><td>Student demonstrates a deep understanding that balanced equations are a direct consequence of the conservation of atoms, explaining why mole ratios are fixed and essential for quantification.</td><td>Student accurately applies the principles of stoichiometry to solve the problem and determine the theoretical yield.</td><td>Student can perform the mass-to-mass calculation but makes an error in identifying the limiting reactant or vice-versa.</td><td>Cannot correctly set up or solve the stoichiometric calculations.</td></tr>
+                <tr><td><strong>CCC:</strong> Scale, Proportion, and Quantity</td><td>Student clearly explains how the mole concept and Avogadro's number provide the quantitative link between the unseeable scale of atoms and the measurable scale of grams in the context of the problem.</td><td>Student correctly uses proportions (mole ratios) from the balanced equation to quantify the reaction and demonstrates understanding of conservation of mass.</td><td>Student performs the calculation but struggles to articulate the concept of proportion or how it relates macroscopic and microscopic scales.</td><td>Student does not apply proportional reasoning correctly.</td></tr>
+                </tbody></table></div>`
+        },
+        "chemical-engineering": {
+            title: "Unit: Chemical Engineering Concepts – How do we control chemical reactions to get what we want, when we want it?",
+            storylineConnection: "<p>Students investigate how industrial processes are optimized. Why does food spoil faster at room temperature? How do catalytic converters work? This leads to an exploration of the factors that control the speed and extent of chemical reactions, a critical aspect of chemical manufacturing.</p>",
+            learningObjectives: `<ul class="list-disc list-inside"><li>Explain energy changes in reactions (enthalpy, bond energy).</li><li>Explain factors affecting reaction rates using collision theory.</li><li>Describe dynamic chemical equilibrium.</li><li>Predict equilibrium shifts using Le Chatelier’s Principle.</li><li>Evaluate and refine the design of a chemical system for optimal output.</li></ul>`,
+            paSteelsStandardsFramework: `<h4 class="framework-title">Overarching PA Framework Alignment:</h4><p><strong>Big Idea (Chemical Reactions):</strong> ${paFrameworkData.chemicalReactions.bigIdea}</p><p><strong>Big Idea (Energy Definitions):</strong> ${paFrameworkData.energyDefinitions.bigIdea}</p><hr class="my-2"><h4 class="framework-title">Targeted PA STEELS Standards for this Unit:</h4>${formatStandardDisplay("3.2.9-12.D")}${formatStandardDisplay("3.2.9-12.E")}${formatStandardDisplay("3.2.9-12.F")}`,
+            vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.D"].vocabulary}, ${paFrameworkData.standards["3.2.9-12.E"].vocabulary}, ${paFrameworkData.standards["3.2.9-12.F"].vocabulary}, thermochemistry, exothermic, endothermic, enthalpy (ΔH), bond energy, activation energy, catalyst, dynamic equilibrium, Le Chatelier’s Principle.</p>`,
+            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: A reusable chemical heat pack is activated, producing a large amount of heat as it crystallizes. It can then be "recharged" by boiling it in water. How does it work, and how can it be "recharged"? This leads to questions about energy in reactions, reversibility, and controlling the process.</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Lab:</strong> "Factors Affecting Reaction Rate" (Alka-Seltzer/water or Mg/HCl).</li><li><strong>Lab/Demo:</strong> Observing a reversible equilibrium system (e.g., CoCl₂) shift with changes in temperature or concentration.</li><li><strong>POGIL:</strong> "Reaction Rates," "Collision Theory," "Equilibrium," "Le Chatelier's Principle."</li><li><strong>Simulations:</strong> PhET "Reactions & Rates," "Reversible Reactions."</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to develop the collision theory model and the concept of dynamic equilibrium. Direct instruction on energy diagrams, activation energy, and Le Chatelier's Principle.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research the Haber-Bosch process for making ammonia-based fertilizers used in PA agriculture, focusing on how temperature and pressure are optimized.</li><li><strong>Design Challenge:</strong> "Optimizing an Industrial Reaction" - propose conditions to maximize yield and rate for a given reversible reaction.</li></ul>`,
+            assessmentAndResources: `
+                <h5 class="unit-section-title">Assessments & Resources</h5>
+                <div class="space-y-4">
+                     <div>
+                        <h6 class="assessment-subtitle">DCI Performance Assessment</h6>
+                        <p><strong>Scenario:</strong> Consider the Haber-Bosch process for making ammonia, a key component of fertilizer: N₂(g) + 3H₂(g) ⇌ 2NH₃(g) + heat.<br><strong>Task:</strong><br>
+                        1. Explain, using collision theory, why increasing the temperature will increase the rate of this reaction.<br>
+                        2. Explain, using Le Chatelier's principle, why increasing the temperature will *decrease* the amount of ammonia present at equilibrium.<br>
+                        3. Based on these two principles, explain the trade-off that chemical engineers must manage when choosing an operating temperature for this industrial process.</p>
+                    </div>
+                     <div>
+                        <h6 class="assessment-subtitle">3D Performance Assessment (The Wonder of Science)</h6>
+                        <p>The summative performance assessment for this unit is Paul Andersen's **"Reaction Rate"** task from the <a href="https://www.thewonderofscience.com/assessments/hs-ps1-5" target="_blank" class="text-sky-600 hover:underline">HS-PS1-5 collection</a>. Students use collision theory to model and explain how factors like temperature and concentration affect reaction rates.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content-Based Assessment (AMTA)</h6>
+                        <p>The **AMTA Unit 13 Test ("Equilibrium")** serves as a content-based assessment, evaluating understanding of equilibrium, Le Chatelier's principle, and reaction dynamics.</p>
+                    </div>
+                    <div>
+                        <h6 class="assessment-subtitle">Content & Vocabulary Learning Checks (Quizizz)</h6>
+                        <p>A Quizizz will be used to assess understanding of the following key concepts and vocabulary:</p>
+                        <ul>
+                            <li><strong>Vocabulary:</strong> Exothermic/endothermic, enthalpy, collision theory, activation energy, catalyst, equilibrium, Le Chatelier's principle.</li>
+                            <li><strong>Concepts:</strong> Interpreting energy diagrams. Identifying factors that change reaction rate. Predicting how a change in temperature, concentration, or pressure will shift an equilibrium.</li>
+                        </ul>
+                    </div>
+                </div>`,
+            standardsBasedGrading: `
+                <h5 class="unit-section-title">Standards-Based Grading Rubric for "Reaction Rate" Assessment</h5>
+                <p class="mb-2">This rubric evaluates student proficiency on PE 3.2.9-12.E by assessing their ability to explain the effects of changing conditions on reaction rate.</p>
+                <div class="overflow-x-auto"><table class="rubric-table"><thead><tr><th>Dimension</th><th>4 - Advanced</th><th>3 - Proficient</th><th>2 - Basic</th><th>1 - Below Basic</th></tr></thead><tbody>
+                <tr><td><strong>SEP:</strong> Developing & Using Models / Constructing Explanations</td><td>Student develops a sophisticated particle-level model (collision theory) and uses it to explain not just *that* a factor changes the rate, but the detailed mechanism of *how* it affects the frequency and energy of collisions.</td><td>Student develops an accurate particle-level model and uses it to clearly explain how a given factor affects reaction rate via collision theory.</td><td>Student develops a simple model that may be incomplete. The explanation states a correct relationship (e.g., "higher temp = faster rate") but provides a weak connection to collision theory.</td><td>Student develops an incorrect model. The explanation is missing, irrelevant, or does not mention particle collisions.</td></tr>
+                <tr><td><strong>DCI:</strong> PS1.B (Reaction Rates)</td><td>Student demonstrates a deep understanding of collision theory, mentioning both the frequency and energy/effectiveness of collisions, and can accurately relate this to activation energy.</td><td>Student accurately applies collision theory to explain the effect of temperature or concentration on reaction rate, mentioning both collision frequency and energy.</td><td>Student correctly identifies a factor that affects rate but gives an incomplete explanation (e.g., mentions more collisions but not higher energy).</td><td>Student cannot accurately explain how changing conditions affects reaction rates.</td></tr>
+                <tr><td><strong>CCC:</strong> Cause & Effect</td><td>Student clearly articulates the causal chain (e.g., increased temp → increased kinetic energy → more frequent & more energetic collisions → increased rate) and can describe the mechanism in detail.</td><td>Student clearly explains the cause-and-effect relationship between the change in condition and the change in reaction rate.</td><td>Student identifies a cause and effect but provides a limited explanation of the underlying mechanism.</td><td>Student fails to explain the cause-and-effect relationship.</td></tr>
+                </tbody></table></div>`
+        }
+    };
+
+    const pacingGuideHtml = `
+        <table class="pacing-table">
+            <thead>
+                <tr><th>Day</th><th>Unit</th><th>Daily Topic/Objective</th><th>Key Activity/Investigation</th><th>Targeted PA STEELs PE(s)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Matter (~15 Days)</td></tr>
+                <tr><td>1</td><td>Matter</td><td>Course Intro; Lab Safety; Anchoring Phenomenon: Industrial Quality Control</td><td>I Notice, I Wonder discussion; Initial model drawings</td><td>Safety</td></tr>
+                <tr><td>2</td><td>Matter</td><td>Properties of Matter: Physical vs. Chemical</td><td>Lab: Observing Physical and Chemical Changes (e.g., burning a candle)</td><td>3.2.9-12.B</td></tr>
+                <tr><td>3</td><td>Matter</td><td>Classification of Matter: Particle Models</td><td>POGIL: "Classification of Matter"; Classifying industrial materials</td><td>3.2.9-12.B</td></tr>
+                <tr><td>4</td><td>Matter</td><td>Introduction to Separation Techniques</td><td>Whiteboarding initial separation ideas for the anchor phenomenon</td><td>SEP: Developing Models</td></tr>
+                <tr><td>5</td><td>Matter</td><td>Lab: "Quality Control Challenge: Mixture Separation" - Day 1</td><td>Students design and begin executing procedures to separate a mixture</td><td>3.2.9-12.B; SEP: Planning Investigations</td></tr>
+                <tr><td>6</td><td>Matter</td><td>Lab: "Quality Control Challenge: Mixture Separation" - Day 2</td><td>Students complete separation, collect data, and begin analysis</td><td>3.2.9-12.B; SEP: Analyzing Data</td></tr>
+                <tr><td>7</td><td>Matter</td><td>Whiteboarding & Model Refinement for Separation</td><td>Groups present lab results and particle models explaining separation</td><td>SEP: Engaging in Argument</td></tr>
+                <tr><td>8</td><td>Matter</td><td>Density as a Characteristic Property</td><td>Introduction to density; Demo: Density Column</td><td>3.2.9-12.B</td></tr>
+                <tr><td>9</td><td>Matter</td><td>Lab: Calculating Density of Solids & Liquids</td><td>Students measure mass and volume to calculate density of various items</td><td>SEP: Using Mathematics</td></tr>
+                <tr><td>10</td><td>Matter</td><td>Using Density to Identify Unknowns</td><td>Lab: "Identifying an Unknown Contaminant" via density measurement</td><td>3.2.9-12.B</td></tr>
+                <tr><td>11</td><td>Matter</td><td>Review of Matter & Classification</td><td>Review games, practice problems, Quizizz</td><td>All Unit PEs</td></tr>
+                <tr><td>12</td><td>Matter</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.B</td></tr>
+                <tr><td>13</td><td>Matter</td><td>Buffer / Re-teach Day</td><td>Address misconceptions from assessment</td><td></td></tr>
+                <tr><td>14-15</td><td>(Buffer)</td><td>Flex Days</td><td>Catch-up, extensions, or begin next unit</td><td></td></tr>
+                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Atoms (~20 Days)</td></tr>
+                <tr><td>16</td><td>Atoms</td><td>Anchoring Phenomenon: Flame Tests & Spectroscopy in Metallurgy</td><td>Flame test demonstration; I Notice, I Wonder discussion</td><td>3.2.9-12.A</td></tr>
+                <tr><td>17</td><td>Atoms</td><td>Historical Models of the Atom (Dalton, Thomson)</td><td>Reading & Jigsaw activity on atomic theory history</td><td>SEP: Obtaining Info</td></tr>
+                <tr><td>18</td><td>Atoms</td><td>Rutherford & the Nuclear Model</td><td>Simulation of Rutherford's Gold Foil Experiment</td><td>SEP: Developing Models</td></tr>
+                <tr><td>19</td><td>Atoms</td><td>Subatomic Particles: Protons, Neutrons, Electrons</td><td>POGIL: "Atomic Structure"; Practice problems (p, n, e)</td><td>3.2.9-12.A, H</td></tr>
+                <tr><td>20</td><td>Atoms</td><td>Isotopes and Average Atomic Mass</td><td>Intro to isotopes; "Isotope Bean Bag Lab" - Day 1 (Data Collection)</td><td>3.2.9-12.H</td></tr>
+                <tr><td>21</td><td>Atoms</td><td>Calculating Average Atomic Mass</td><td>"Isotope Bean Bag Lab" - Day 2 (Calculations & Analysis)</td><td>SEP: Using Mathematics</td></tr>
+                <tr><td>22</td><td>Atoms</td><td>The Bohr Model and Electron Energy Levels</td><td>Notes and diagrams; relate to flame test phenomenon</td><td>3.2.9-12.A</td></tr>
+                <tr><td>23</td><td>Atoms</td><td>Introduction to Electron Configurations</td><td>POGIL: "Electron Configurations" (s, p blocks)</td><td>3.2.9-12.A</td></tr>
+                <tr><td>24</td><td>Atoms</td><td>Writing Electron Configurations</td><td>Practice problems; Whiteboarding examples</td><td>3.2.9-12.A</td></tr>
+                <tr><td>25</td><td>Atoms</td><td>The Periodic Table & Trends: Atomic Radius</td><td>Data analysis activity to discover trend for atomic radius</td><td>3.2.9-12.A; SEP: Analyzing Data</td></tr>
+                <tr><td>26</td><td>Atoms</td><td>Periodic Trends: Ionization Energy & Electronegativity</td><td>Data analysis activity to discover remaining trends</td><td>3.2.9-12.A; CCC: Patterns</td></tr>
+                <tr><td>27</td><td>Atoms</td><td>Explaining Periodic Trends with Atomic Structure</td><td>Whiteboarding sessions to construct explanations for trends</td><td>SEP: Constructing Explanations</td></tr>
+                <tr><td>28</td><td>Atoms</td><td>Nuclear Stability and Introduction to Radioactivity</td><td>Band of Stability introduction; what makes a nucleus unstable?</td><td>3.2.9-12.H</td></tr>
+                <tr><td>29</td><td>Atoms</td><td>Types of Radioactive Decay (Alpha, Beta, Gamma)</td><td>Modeling decay with manipulatives; Writing nuclear equations</td><td>3.2.9-12.H; SEP: Developing Models</td></tr>
+                <tr><td>30-31</td><td>Atoms</td><td>Half-Life (Conceptual & Simple Calculations)</td><td>PhET Simulation: "Alpha Decay"; Practice problems</td><td>3.2.9-12.H</td></tr>
+                <tr><td>32</td><td>Atoms</td><td>Applications: Medical & Industrial Isotopes in PA</td><td>Research and brief presentations on local uses of isotopes</td><td>SEP: Obtaining Info</td></tr>
+                <tr><td>33</td><td>Atoms</td><td>Review of Atoms, Periodicity, and Nuclear</td><td>Review games, practice problems, Quizizz</td><td>All Unit PEs</td></tr>
+                <tr><td>34</td><td>Atoms</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.A, H</td></tr>
+                <tr><td>35</td><td>Atoms</td><td>Buffer / Re-teach Day</td><td>Address misconceptions from assessment</td><td></td></tr>
+                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Bonding (~20 Days)</td></tr>
+                <tr><td>36</td><td>Bonding</td><td>Anchoring Phenomenon: Properties of Salt vs. Sugar vs. Metal</td><td>Demo and discussion of melting point, conductivity, malleability</td><td>3.2.9-12.B, N</td></tr>
+                <tr><td>37</td><td>Bonding</td><td>Introduction to Chemical Bonding: Valence Electrons</td><td>Review of valence electrons; Lewis Dot Structures for atoms</td><td>3.2.9-12.A (review)</td></tr>
+                <tr><td>38</td><td>Bonding</td><td>Ionic Bonding: Electron Transfer</td><td>Modeling ionic bond formation; Predicting formulas of ionic compounds</td><td>3.2.9-12.C (preview)</td></tr>
+                <tr><td>39</td><td>Bonding</td><td>Covalent Bonding: Electron Sharing</td><td>Modeling covalent bond formation; Intro to Lewis Structures for molecules</td><td>3.2.9-12.C (preview)</td></tr>
+                <tr><td>40</td><td>Bonding</td><td>Drawing Lewis Structures (Single Bonds)</td><td>POGIL: "Lewis Structures"; Guided practice</td><td>SEP: Developing Models</td></tr>
+                <tr><td>41</td><td>Bonding</td><td>Lewis Structures (Multiple Bonds & Exceptions)</td><td>Practice with more complex molecules</td><td>SEP: Developing Models</td></tr>
+                <tr><td>42</td><td>Bonding</td><td>VSEPR Theory and Molecular Shapes</td><td>POGIL: "Molecular Geometry"; Building molecules with model kits</td><td>3.2.9-12.N</td></tr>
+                <tr><td>43</td><td>Bonding</td><td>Predicting Molecular Shapes</td><td>Whiteboarding session with various examples</td><td>SEP: Developing Models</td></tr>
+                <tr><td>44</td><td>Bonding</td><td>Electronegativity and Bond Polarity</td><td>Using electronegativity values to determine bond polarity</td><td>3.2.9-12.N; CCC: Patterns</td></tr>
+                <tr><td>45</td><td>Bonding</td><td>Molecular Polarity</td><td>Determining overall molecular polarity based on shape and bond polarity</td><td>3.2.9-12.N</td></tr>
+                <tr><td>46</td><td>Bonding</td><td>Lab: "Properties of Ionic vs. Covalent Substances"</td><td>Students test conductivity, solubility, and melting points</td><td>3.2.9-12.B</td></tr>
+                <tr><td>47</td><td>Bonding</td><td>Introduction to Intermolecular Forces (IMFs)</td><td>Notes and demos on LDF, Dipole-Dipole, and Hydrogen Bonding</td><td>3.2.9-12.B</td></tr>
+                <tr><td>48</td><td>Bonding</td><td>Relating IMFs to Physical Properties</td><td>POGIL: "Intermolecular Forces"; explaining data from previous lab</td><td>SEP: Constructing Explanations</td></tr>
+                <tr><td>49-50</td><td>Bonding</td><td>Metallic Bonding and Properties of Metals</td><td>The "sea of electrons" model; relate to properties from anchor demo</td><td>3.2.9-12.N</td></tr>
+                <tr><td>51</td><td>Bonding</td><td>Putting it all together: Structure & Properties</td><td>Case studies: Explain properties of 3-4 different compounds based on bonding and IMFs</td><td>CCC: Structure & Function</td></tr>
+                <tr><td>52</td><td>Bonding</td><td>Review of Bonding and IMFs</td><td>Practice predicting properties, drawing structures, Quizizz</td><td>All Unit PEs</td></tr>
+                <tr><td>53</td><td>Bonding</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.B, N</td></tr>
+                <tr><td>54-55</td><td>(Buffer)</td><td>Flex Days / Re-teach</td><td>Address misconceptions from assessment</td><td></td></tr>
+                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Reactions (~20 Days)</td></tr>
+                <tr><td>56</td><td>Reactions</td><td>Anchoring Phenomenon: Single Displacement Reaction Demo</td><td>Demo: Zinc in Copper(II) Sulfate. I Notice, I Wonder. Connect to plating.</td><td>3.2.9-12.C</td></tr>
+                <tr><td>57</td><td>Reactions</td><td>Evidence of Chemical Reactions & Writing Equations</td><td>Notes and practice writing skeleton equations from word descriptions</td><td>SEP: Developing Models</td></tr>
+                <tr><td>58</td><td>Reactions</td><td>Balancing Chemical Equations & Conservation of Mass</td><td>POGIL: "Balancing Equations"; Practice with manipulatives/diagrams</td><td>3.2.9-12.G</td></tr>
+                <tr><td>59</td><td>Reactions</td><td>Lab: Types of Reactions</td><td>Students perform and classify several small-scale reactions</td><td>3.2.9-12.C</td></tr>
+                <tr><td>60</td><td>Reactions</td><td>Whiteboarding: Classifying Reactions</td><td>Groups present lab results and balanced equations</td><td>SEP: Engaging in Argument</td></tr>
+                <tr><td>61-62</td><td>Reactions</td><td>The Mole and Molar Mass</td><td>Intro to mole concept, Avogadro's number, calculating molar mass</td><td>3.2.9-12.G</td></tr>
+                <tr><td>63-64</td><td>Reactions</td><td>Introduction to Stoichiometry & Mole Ratios</td><td>Using balanced equations for mole-to-mole conversions. BCA tables.</td><td>SEP: Using Mathematics</td></tr>
+                <tr><td>65-66</td><td>Reactions</td><td>Mass Stoichiometry</td><td>Practice mass-to-mole and mass-to-mass calculations. BCA tables.</td><td>3.2.9-12.G</td></tr>
+                <tr><td>67</td><td>Reactions</td><td>Limiting Reactants: Conceptual Introduction</td><td>POGIL: "Limiting Reactants"; analogies (e.g., building bicycles)</td><td>3.2.9-12.G</td></tr>
+                <tr><td>68</td><td>Reactions</td><td>Lab: Limiting Reactant & Percent Yield - Day 1</td><td>Students perform a precipitation reaction with known reactant amounts</td><td>SEP: Planning Investigations</td></tr>
+                <tr><td>69</td><td>Reactions</td><td>Limiting Reactant & Percent Yield - Day 2</td><td>Isolate, dry, and weigh product. Calculate theoretical & percent yield.</td><td>SEP: Analyzing Data</td></tr>
+                <tr><td>70</td><td>Reactions</td><td>Stoichiometry Review and Practice</td><td>Complex problems involving limiting reactants and percent yield</td><td>3.2.9-12.G</td></tr>
+                <tr><td>71-73</td><td>Reactions</td><td>**Collaborative Project Work Session 1: Jewelry & Photo**</td><td>Students begin research and station design for their respective projects</td><td>ELS/T&E Standards</td></tr>
+                <tr><td>74-75</td><td>Reactions</td><td>**Collaborative Project Work Session 2: Jewelry & Photo**</td><td>Students finalize station content and practice their demonstrations</td><td>ELS/T&E Standards</td></tr>
+                <tr><td>76</td><td>Reactions</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.C, G</td></tr>
+                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Chemical Engineering Concepts (~15 Days)</td></tr>
+                <tr><td>77</td><td>Chemical Engineering</td><td>Anchoring Phenomenon: Glow Sticks at Different Temperatures</td><td>Demo: Glow sticks in hot vs. cold water. I Notice, I Wonder.</td><td>3.2.9-12.E</td></tr>
+                <tr><td>78</td><td>Chemical Engineering</td><td>Reaction Rates and Collision Theory</td><td>POGIL: "Collision Theory"; Intro to energy diagrams & activation energy</td><td>3.2.9-12.E</td></tr>
+                <tr><td>79-80</td><td>Chemical Engineering</td><td>Lab: Factors Affecting Reaction Rates</td><td>Investigate effects of concentration, temperature, surface area</td><td>SEP: Planning Investigations</td></tr>
+                <tr><td>81</td><td>Chemical Engineering</td><td>Whiteboarding & Analyzing Rate Data</td><td>Groups present lab results and explain using collision theory</td><td>SEP: Constructing Explanations</td></tr>
+                <tr><td>82</td><td>Chemical Engineering</td><td>Catalysts and Enzymes</td><td>Demo: Decomposition of H₂O₂ with a catalyst (MnO₂ or yeast)</td><td>3.2.9-12.E</td></tr>
+                <tr><td>83</td><td>Chemical Engineering</td><td>Introduction to Dynamic Equilibrium</td><td>Demo: Reversible reaction (e.g., CoCl₂ system); PhET simulation</td><td>3.2.9-12.F</td></tr>
+                <tr><td>84-85</td><td>Chemical Engineering</td><td>Le Chatelier's Principle</td><td>POGIL: "Le Chatelier's Principle"; Predicting shifts in equilibrium</td><td>3.2.9-12.F</td></tr>
+                <tr><td>86-87</td><td>Chemical Engineering</td><td>Energy in Reactions: Enthalpy & Bond Energy</td><td>Introduction to ΔH; POGIL or activity on calculating enthalpy from bond energies</td><td>3.2.9-12.D</td></tr>
+                <tr><td>88</td><td>Chemical Engineering</td><td>Review of Rates, Equilibrium, and Energy</td><td>Practice problems, conceptual review, Quizizz</td><td>All Unit PEs</td></tr>
+                <tr><td>89</td><td>Chemical Engineering</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.D, E, F</td></tr>
+                <tr><td>90</td><td>(Buffer)</td><td>**Final Project Presentations / Course Culmination**</td><td>Jewelry/Photo collaborations presented, or Final Exam Review</td><td></td></tr>
+            </tbody>
+        </table>
+    `;
+
+    // Function to create accordion items
+    function createAccordionItem(title, content) {
+        const div = document.createElement('div');
+        div.className = 'border-b border-stone-200 last:border-b-0';
+        const accordionId = `accordion-${title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}-${Math.random().toString(36).substr(2, 9)}`;
+        div.innerHTML = `
+            <button data-accordion-target="${accordionId}" aria-expanded="false" class="accordion-button w-full flex justify-between items-center text-left py-3 px-1 text-sky-700 hover:bg-sky-100 focus:outline-none transition-colors duration-150">
+                <span class="font-medium text-base">${title}</span>
+                <svg class="w-5 h-5 transform transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="${accordionId}" class="accordion-content px-1 pb-3 text-sm text-stone-600 leading-relaxed">
+                ${content}
+            </div>
+        `;
+        return div;
+    }
+
+    function populateUnitSection(unitKey, unitData) {
+        const section = document.getElementById(unitKey); 
+        if (!section) {
+            console.error("Section not found for unitKey:", unitKey);
+            return;
+        }
+
+        let unitHtml = `<h2 class="text-2xl font-semibold text-sky-700 mb-1">${unitData.title}</h2>`;
+        unitHtml += `<div class="mb-4 text-sm text-stone-500 italic leading-relaxed">${unitData.storylineConnection || ''}</div>`;
+        
+        const contentOrder = [
+            "Learning Objectives", 
+            "PA STEELS Standards Framework",
+            "PA Framework Vocabulary",
+            "EEE Framework By Unit", 
+            "Assessments & Resources",
+            "Standards-Based Grading Rubric"
+        ];
+        
+        const accordionContainer = document.createElement('div');
+        accordionContainer.className = 'space-y-0';
+
+        contentOrder.forEach(key => {
+            const dataKeyMapping = {
+                "Learning Objectives": "learningObjectives",
+                "PA STEELS Standards Framework": "paSteelsStandardsFramework",
+                "PA Framework Vocabulary": "vocabularyFramework",
+                "EEE Framework By Unit": "eeeFramework",
+                "Assessments & Resources": "assessmentAndResources",
+                "Standards-Based Grading Rubric": "standardsBasedGrading"
+            };
+            const dataKey = dataKeyMapping[key];
+            const content = unitData[dataKey];
+
+            if (content) {
+                const accordionItem = createAccordionItem(key, content);
+                accordionContainer.appendChild(accordionItem);
+            } else {
+                console.warn("No content found for key:", key, "(mapped to dataKey:", dataKey, ") in unitData for ", unitKey);
+            }
+        });
+        
+        unitHtml += accordionContainer.outerHTML;
+        section.innerHTML = unitHtml;
+    }
+    
+    function populatePhenomenaSection() {
+        const phenomenaContainer = document.getElementById('phenomena-content');
+        if (!phenomenaContainer) return;
+        
+        let html = '';
+        const unitKeys = ["matter", "atoms", "bonding", "reactions", "chemical-engineering"];
+        const phenomenaData = {
+            "matter": {
+                title: "Unit: Matter",
+                phenomenon: "A sample of crude oil arrives at a refinery near Philadelphia. How is this complex, black liquid separated into useful products like gasoline, diesel, and asphalt?",
+                alignment: "This phenomenon drives the need to understand the definitions of substances and mixtures. To solve the problem, students must figure out how to separate components of a mixture based on their distinct physical properties (like boiling point), which directly addresses the core concepts of PA STEEL PE 3.2.9-12.B (investigating substances at the bulk scale)."
+            },
+            "atoms": {
+                title: "Unit: Atoms",
+                phenomenon: "The burning of steel wool. How can a material we think of as solid and strong, like the steel historically produced in PA, actually burn? What makes it different from a log? And why does it appear to gain weight after burning?",
+                alignment: "This phenomenon challenges student ideas about matter and conservation. It drives an investigation into how elements like iron combine with oxygen (a chemical reaction), requiring an understanding of atomic structure to explain why iron atoms are different from oxygen atoms. The mass change leads to understanding that atoms have mass and are conserved. This directly supports PA STEEL PEs 3.2.9-12.A (properties of elements) and 3.2.9-12.G (conservation of mass)."
+            },
+            "bonding": {
+                title: "Unit: Bonding",
+                phenomenon: "An 'indestructible' coating like polyurea is demonstrated (via video). Why is this material flexible yet extremely durable, unlike other plastics or coatings? This is relevant to local heavy manufacturing like BAE Systems in York that requires advanced materials.",
+                alignment: "This phenomenon forces students to confront the fact that knowing the atoms is not enough; how they are connected matters. It drives an investigation into the different types of forces *within* particles (covalent bonds) and *between* particles (intermolecular forces), particularly how cross-linking can create strong materials. This directly supports PA STEEL PEs 3.2.9-12.B and 3.2.9-12.N by requiring students to connect molecular-level structure and electrical forces to the macroscopic properties they observe."
+            },
+            "reactions": {
+                title: "Unit: Reactions",
+                phenomenon: "Observing a single displacement reaction, such as placing a piece of zinc metal into a blue solution of copper(II) sulfate and seeing solid copper form on the zinc as the blue color fades.",
+                alignment: "This phenomenon provides direct, visible evidence of atoms rearranging to form new substances. It drives the need to accurately describe what is happening with a balanced chemical equation to honor the law of conservation of mass (PA STEEL PE 3.2.9-12.G). It also requires an understanding of reactivity patterns (PA STEEL PE 3.2.9-12.C) and provides a concrete example for quantitative analysis (stoichiometry) and the cross-curricular projects involving plating and precipitation."
+            },
+            "chemical-engineering": {
+                title: "Unit: Chemical Engineering Concepts",
+                phenomenon: "A reusable chemical heat pack is activated, producing a large amount of heat as it crystallizes. It can then be 'recharged' by boiling it in water.",
+                alignment: "This phenomenon drives an investigation into the factors that control chemical reactions. It provides an intuitive model for energy changes in reactions (exothermic crystallization, PE 3.2.9-12.D), reversibility, and the concept of equilibrium. It serves as a launching point for discussing how engineers manipulate conditions like temperature to control reaction outcomes (PE 3.2.9-12.F)."
+            }
+        };
+
+        unitKeys.forEach(key => {
+            const data = phenomenaData[key];
+            html += `
+                <div class="mb-6">
+                    <h3 class="phenomena-title">${data.title}</h3>
+                    <div class="p-3 bg-sky-50 rounded-lg border border-sky-200">
+                        <p><strong>Anchoring Phenomenon:</strong> ${data.phenomenon}</p>
+                        <p class="mt-2"><strong>Alignment to Standards:</strong> ${data.alignment}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        phenomenaContainer.innerHTML = html;
+    }
+
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const mainContentContainer = document.getElementById('tab-content-container');
+
+    function switchTab(tabId) {
+        tabButtons.forEach(btn => {
+            if (btn.dataset.tab === tabId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        tabContents.forEach(content => {
+            // Hide all tab content first
+            content.classList.remove('active');
+        });
+        
+        const activeContent = document.getElementById(tabId);
+        if (activeContent) {
+            activeContent.classList.add('active');
+        }
+
+        mainContentContainer.scrollTop = 0;
+    }
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabId = button.dataset.tab;
+            switchTab(tabId);
+        });
+    });
+
+    mainContentContainer.addEventListener('click', function(event) {
+        const button = event.target.closest('.accordion-button');
+        if (button) {
+            const content = document.getElementById(button.dataset.accordionTarget);
+            if (!content) {
+                console.error('Accordion content not found for target:', button.dataset.accordionTarget);
+                return;
+            }
+            const isOpening = !content.classList.contains('open');
+            
+            button.classList.toggle('open');
+            button.setAttribute('aria-expanded', isOpening.toString());
+            content.classList.toggle('open');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const unitKeys = ["matter", "atoms", "bonding", "reactions", "chemical-engineering"];
+        unitKeys.forEach(key => {
+            if(unitsData[key]) {
+                populateUnitSection(key, unitsData[key]);
+            }
+        });
+        
+        const pacingGuideContainer = document.getElementById('pacing-guide-content');
+        if (pacingGuideContainer) {
+            pacingGuideContainer.innerHTML = pacingGuideHtml;
+        }
+        
+        populatePhenomenaSection();
+
+
+        // Hide module overview sections by default as they are informational
+        const moduleAContent = document.getElementById("moduleA");
+        if(moduleAContent) moduleAContent.style.display = 'none';
+        const moduleBContent = document.getElementById("moduleB");
+        if(moduleBContent) moduleBContent.style.display = 'none';
+
+        switchTab("introduction");
+    });
+
+</script>
+</body>
+</html>
