@@ -121,7 +121,7 @@
     </style>
     <!-- Chosen Palette: Warm Neutrals (Stone) with Sky Blue accents -->
     <!-- Application Structure Plan: Expanded to 5 units for better content distribution and standards coverage. Assessments now explicitly reference performance tasks from The Wonder of Science. The evaluation section in each unit details a standards-based grading (SBG) approach, focusing on proficiency levels for targeted PEs. -->
-    <!-- Visualization & Content Choices: Report Info: Pennsylvania High School NGSS Storyline-Driven Chemistry Curriculum (V16 - Final Phenomena & Assessment Links). Goal: Interactive exploration of a curriculum aligned with PA STEELS, SAS, SBG principles, and specific local industrial/collaborative projects. Viz/Presentation Method: Tabs, accordions, styled lists. Interaction: Clicks. Justification: Final version incorporating all pedagogical components and user-requested thematic shifts and resources. Library/Method: Tailwind CSS, Vanilla JS. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- Visualization & Content Choices: Report Info: Pennsylvania High School NGSS Storyline-Driven Chemistry Curriculum (V17 - Final AMTA Gas Law Integration). Goal: Interactive exploration of a curriculum aligned with PA STEELS, SAS, and SBG principles, now including Gas Laws within the Matter unit. Viz/Presentation Method: Tabs, accordions, styled lists. Interaction: Clicks. Justification: Final version incorporating all pedagogical components and user-requested thematic shifts and resources. Library/Method: Tailwind CSS, Vanilla JS. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="bg-stone-100 text-stone-800 antialiased">
@@ -129,7 +129,7 @@
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
         <header class="text-center mb-8">
             <h1 class="text-3xl sm:text-4xl font-bold text-sky-700">Pennsylvania High School NGSS Storyline-Driven Chemistry Curriculum</h1>
-            <p class="text-stone-600 mt-2">An Interactive Exploration (V16 - Final Phenomena & Assessment Links)</p>
+            <p class="text-stone-600 mt-2">An Interactive Exploration (V17 - Final AMTA Gas Law Integration)</p>
         </header>
 
         <nav id="main-tabs" class="mb-6 bg-stone-200 rounded-lg shadow p-2 flex flex-wrap justify-center gap-2">
@@ -187,8 +187,8 @@
                                 <tr>
                                     <td class="px-4 py-3 text-sm font-medium text-stone-900">Matter</td>
                                     <td class="px-4 py-3 text-sm text-stone-500">How do we describe, classify, and separate the "stuff" that makes up our world?</td>
-                                    <td class="px-4 py-3 text-sm text-stone-500">~3 weeks</td>
-                                    <td class="px-4 py-3 text-sm text-stone-500">Classification of matter, properties & changes, density, separation techniques, intro particle models. (Focus: 3.2.9-12.B)</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">~4 weeks</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">Classification of matter, properties & changes, density, separation techniques, Gas Laws, intro particle models. (Focus: 3.2.9-12.B)</td>
                                 </tr>
                                 <tr>
                                     <td class="px-4 py-3 text-sm font-medium text-stone-900">Atoms</td>
@@ -199,13 +199,13 @@
                                 <tr>
                                     <td class="px-4 py-3 text-sm font-medium text-stone-900">Bonding</td>
                                     <td class="px-4 py-3 text-sm text-stone-500">How do atoms connect to form the vast array of substances, and how do those connections dictate properties?</td>
-                                    <td class="px-4 py-3 text-sm text-stone-500">~4 weeks</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">~3.5 weeks</td>
                                     <td class="px-4 py-3 text-sm text-stone-500">Chemical bonding (ionic, covalent, metallic), Lewis structures, VSEPR, polarity, intermolecular forces (IMFs). (Focus: 3.2.9-12.N, aspects of A, B)</td>
                                 </tr>
                                 <tr>
                                     <td class="px-4 py-3 text-sm font-medium text-stone-900">Reactions</td>
                                     <td class="px-4 py-3 text-sm text-stone-500">How can we describe and quantify the rearrangement of atoms during chemical changes?</td>
-                                    <td class="px-4 py-3 text-sm text-stone-500">~4 weeks</td>
+                                    <td class="px-4 py-3 text-sm text-stone-500">~3.5 weeks</td>
                                     <td class="px-4 py-3 text-sm text-stone-500">Reaction types, balancing equations, mole concept, stoichiometry, limiting reactants, percent yield. (Focus: 3.2.9-12.C, G)</td>
                                 </tr>
                                 <tr>
@@ -383,10 +383,10 @@
         "matter": {
             title: "Unit: Matter – How do we describe, classify, and separate the 'stuff' that makes up our world?",
             storylineConnection: "<p>This unit launches the course by immersing students in a realistic industrial problem, forcing them to confront the need to describe, classify, and separate matter to ensure product quality and consistency.</p>",
-            learningObjectives: `<ul class="list-disc list-inside"><li>Differentiate physical/chemical properties & changes.</li><li>Classify matter as elements, compounds, or mixtures.</li><li>Describe and apply separation techniques based on physical properties.</li><li>Measure mass/volume and calculate density to identify substances.</li><li>Develop simple particle models for states of matter and physical changes.</li></ul>`,
+            learningObjectives: `<ul class="list-disc list-inside"><li>Differentiate physical/chemical properties & changes.</li><li>Classify matter as elements, compounds, or mixtures.</li><li>Describe and apply separation techniques based on physical properties.</li><li>Measure mass/volume and calculate density.</li><li>Develop simple particle models for states of matter.</li><li>Describe the relationships between pressure, volume, and temperature for gases (Gas Laws).</li></ul>`,
             paSteelsStandardsFramework: `<h4 class="framework-title">Overarching PA Framework Alignment:</h4><p><strong>Big Idea (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.bigIdea}</p><p><strong>Essential Question (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.essentialQuestion}</p><hr class="my-2"><h4 class="framework-title">Targeted PA STEELS Standards for this Unit:</h4>${formatStandardDisplay("3.2.9-12.B")}`,
-            vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.B"].vocabulary}, matter, volume, physical/chemical change, element, compound, mixture (homogeneous, heterogeneous), solution, solvent, solute, filtration, distillation, chromatography, particle model, states of matter, purity.</p>`,
-            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: A sample of crude oil arrives at a refinery near Philadelphia. How is this complex, black liquid separated into useful products like gasoline, diesel, and asphalt? This drives the need to understand mixtures and separation based on physical properties like boiling point.</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Lab:</strong> "Refinery Challenge: Mixture Separation." Students are given a model "crude oil" mixture (e.g., mineral oil, sand, salt, iron filings) and must design a procedure to separate the components. (Hands-on Investigation)</li><li><strong>Lab:</strong> "Identifying an Unknown Liquid" via density. (Investigation & Data Analysis)</li><li><strong>Activity:</strong> Classifying industrial materials (e.g., iron ore, pig iron, steel) as elements, compounds, or mixtures. (Classification Practice)</li><li><strong>POGIL:</strong> "Classification of Matter," "Density." (Guided Inquiry)</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to share lab findings and develop consensus models for classifying and separating matter. Direct instruction on properties, changes, density, and distillation.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research physical separation techniques used in PA's historical iron furnace operations (e.g., separating slag from iron) or modern food processing.</li><li><strong>Design Challenge:</strong> Design an efficient separation sequence for a complex industrial byproduct mixture.</li></ul>`,
+            vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.B"].vocabulary}, matter, volume, physical/chemical change, element, compound, mixture (homogeneous, heterogeneous), solution, solvent, solute, filtration, distillation, chromatography, particle model, states of matter, purity, pressure, gas laws, Kinetic Molecular Theory.</p>`,
+            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: A sample of crude oil arrives at a refinery near Philadelphia. How is this complex, black liquid separated into useful products like gasoline, diesel, and asphalt? This drives the need to understand mixtures and separation based on physical properties like boiling point.</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Lab:</strong> "Refinery Challenge: Mixture Separation." Students are given a model "crude oil" mixture and must design a procedure to separate its components.</li><li><strong>Lab:</strong> "Identifying an Unknown Liquid" via density.</li><li><strong>Lab:</strong> "Gas Laws Lab" using pressure sensors and syringes to investigate the relationship between pressure and volume.</li><li><strong>POGIL:</strong> "Classification of Matter," "Density," "Gas Laws."</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to share lab findings and develop consensus models for classifying and separating matter, and for the relationships between P, V, and T in gases. Direct instruction on properties, changes, density, distillation, and the Gas Laws.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research physical separation techniques used in PA's historical iron furnace operations or modern food processing.</li><li><strong>Design Challenge:</strong> Design an efficient separation sequence for a complex industrial byproduct mixture.</li></ul>`,
             assessmentAndResources: `
                 <h5 class="unit-section-title">Assessments & Resources</h5>
                 <div class="space-y-4">
@@ -400,15 +400,11 @@
                     </div>
                     <div>
                         <h6 class="assessment-subtitle">Content-Based Assessment (AMTA)</h6>
-                        <p>The **AMTA Unit 1 Test** serves as the content-based assessment, evaluating understanding of the simple particle model, classification of matter, and conservation principles.</p>
+                        <p>The **AMTA Unit 1 & 2 Tests** (Matter & Gas Behavior) serve as the content-based assessment, evaluating understanding of the particle model, classification, and gas laws.</p>
                     </div>
                     <div>
                         <h6 class="assessment-subtitle">Formative Learning Checks (Quizizz)</h6>
-                        <p>A Quizizz will be used to assess understanding of the following key concepts and vocabulary:</p>
-                        <ul>
-                            <li><strong>Vocabulary:</strong> Matter, mass, volume, density, physical/chemical property, physical/chemical change, element, compound, mixture (hetero/homogeneous), solution, filtration, distillation.</li>
-                            <li><strong>Concepts:</strong> Differentiating between elements, compounds, and mixtures at a particle level. Distinguishing physical vs. chemical changes. Applying the density formula (D=m/V). Identifying appropriate separation techniques for given mixtures.</li>
-                        </ul>
+                        <p>A Quizizz will be used to assess understanding of key concepts including classification of matter, density, separation techniques, and basic gas law relationships (e.g., "If pressure on a gas increases, its volume will...").</p>
                     </div>
                 </div>`,
             standardsBasedGrading: `<h5 class="unit-section-title">Standards-Based Grading Rubric for "Properties of Matter" Assessment</h5>
@@ -425,7 +421,7 @@
             learningObjectives: `<ul class="list-disc list-inside"><li>Describe historical atomic models.</li><li>Identify subatomic particles, their properties, and locations.</li><li>Determine p/n/e for atoms/ions; define isotopes; calculate average atomic mass.</li><li>Describe nuclear stability and common radioactive decay types (alpha, beta, gamma).</li><li>Use the periodic table to predict electron configurations and classify elements/trends.</li></ul>`,
             paSteelsStandardsFramework: `<h4 class="framework-title">Overarching PA Framework Alignment:</h4><p><strong>Big Idea (Structure and Properties of Matter):</strong> ${paFrameworkData.structureAndPropertiesOfMatter.bigIdea}</p><p><strong>Big Idea (Nuclear Processes):</strong> ${paFrameworkData.nuclearProcesses.bigIdea}</p><hr class="my-2"><h4 class="framework-title">Targeted PA STEELS Standards for this Unit:</h4>${formatStandardDisplay("3.2.9-12.A")}${formatStandardDisplay("3.2.9-12.H")}`,
             vocabularyFramework: `<p>${paFrameworkData.standards["3.2.9-12.A"].vocabulary}, ${paFrameworkData.standards["3.2.9-12.H"].vocabulary}, atomic theory (Dalton, Thomson, Rutherford, Bohr, Quantum), subatomic particle, ion, average atomic mass, half-life (conceptual).</p>`,
-            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: The burning of steel wool. How can a material we think of as solid and strong, like the steel historically produced in PA, actually burn? What makes it different from a log? And why does it appear to gain weight after burning?</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Activity:</strong> "Isotope Bean Bag Lab" (modeling isotopes and average atomic mass).</li><li><strong>POGIL:</strong> "Atomic Structure," "Electron Configurations," "Periodic Trends."</li><li><strong>Simulations:</strong> PhET "Build an Atom," "Isotopes and Atomic Mass."</li><li><strong>Modeling:</strong> Using manipulatives to model alpha and beta decay.</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to develop consensus models for atomic structure, electron configurations, and nuclear decay. Direct instruction on historical models, subatomic particles, and reading the periodic table.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research the specific elemental composition of different types of steel produced historically in PA and relate it to their properties.</li><li><strong>Application:</strong> Using periodic trends to predict properties of various metals used in manufacturing.</li></ul>`,
+            eeeFramework: `<h5 class="unit-section-title">Engage:</h5><p>Anchoring Phenomenon: The burning of steel wool. How can a material we think of as solid and strong, like the steel historically produced in PA, actually burn? What makes it different from a log? And why does it appear to gain weight?</p><h5 class="unit-section-title">Explore:</h5><p class='activity-list-title'>Key Assignments & Labs:</p><ul><li><strong>Activity:</strong> "Isotope Bean Bag Lab" (modeling isotopes and average atomic mass).</li><li><strong>POGIL:</strong> "Atomic Structure," "Electron Configurations," "Periodic Trends."</li><li><strong>Simulations:</strong> PhET "Build an Atom," "Isotopes and Atomic Mass."</li><li><strong>Modeling:</strong> Using manipulatives to model alpha and beta decay.</li></ul><h5 class="unit-section-title">Explain:</h5><p>Whiteboarding sessions to develop consensus models for atomic structure, electron configurations, and nuclear decay. Direct instruction on historical models, subatomic particles, and reading the periodic table.</p><h5 class="unit-section-title">Elaborate:</h5><p class='activity-list-title'>Application & Extension:</p><ul><li><strong>PA Connection:</strong> Research the specific elemental composition of different types of steel produced historically in PA and relate it to their properties.</li><li><strong>Application:</strong> Using periodic trends to predict properties of various metals used in manufacturing.</li></ul>`,
             assessmentAndResources: `
                 <h5 class="unit-section-title">Assessments & Resources</h5>
                 <div class="space-y-4">
@@ -598,88 +594,82 @@
                 <tr><th>Day</th><th>Unit</th><th>Daily Topic/Objective</th><th>Key Activity/Investigation</th><th>Targeted PA STEELs PE(s)</th></tr>
             </thead>
             <tbody>
-                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Matter (~15 Days)</td></tr>
-                <tr><td>1</td><td>Matter</td><td>Course Intro; Lab Safety; Anchoring Phenomenon: Industrial Quality Control</td><td>I Notice, I Wonder discussion; Initial model drawings</td><td>Safety</td></tr>
+                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Matter (~20 Days)</td></tr>
+                <tr><td>1</td><td>Matter</td><td>Course Intro; Lab Safety; Anchoring Phenomenon: Crude Oil Distillation</td><td>I Notice, I Wonder discussion; Initial model drawings</td><td>Safety</td></tr>
                 <tr><td>2</td><td>Matter</td><td>Properties of Matter: Physical vs. Chemical</td><td>Lab: Observing Physical and Chemical Changes (e.g., burning a candle)</td><td>3.2.9-12.B</td></tr>
                 <tr><td>3</td><td>Matter</td><td>Classification of Matter: Particle Models</td><td>POGIL: "Classification of Matter"; Classifying industrial materials</td><td>3.2.9-12.B</td></tr>
                 <tr><td>4</td><td>Matter</td><td>Introduction to Separation Techniques</td><td>Whiteboarding initial separation ideas for the anchor phenomenon</td><td>SEP: Developing Models</td></tr>
-                <tr><td>5</td><td>Matter</td><td>Lab: "Quality Control Challenge: Mixture Separation" - Day 1</td><td>Students design and begin executing procedures to separate a mixture</td><td>3.2.9-12.B; SEP: Planning Investigations</td></tr>
-                <tr><td>6</td><td>Matter</td><td>Lab: "Quality Control Challenge: Mixture Separation" - Day 2</td><td>Students complete separation, collect data, and begin analysis</td><td>3.2.9-12.B; SEP: Analyzing Data</td></tr>
+                <tr><td>5</td><td>Matter</td><td>Lab: "Refinery Challenge: Mixture Separation" - Day 1</td><td>Students design and begin executing procedures to separate a mixture</td><td>3.2.9-12.B; SEP: Planning Investigations</td></tr>
+                <tr><td>6</td><td>Matter</td><td>Lab: "Refinery Challenge: Mixture Separation" - Day 2</td><td>Students complete separation, collect data, and begin analysis</td><td>3.2.9-12.B; SEP: Analyzing Data</td></tr>
                 <tr><td>7</td><td>Matter</td><td>Whiteboarding & Model Refinement for Separation</td><td>Groups present lab results and particle models explaining separation</td><td>SEP: Engaging in Argument</td></tr>
                 <tr><td>8</td><td>Matter</td><td>Density as a Characteristic Property</td><td>Introduction to density; Demo: Density Column</td><td>3.2.9-12.B</td></tr>
                 <tr><td>9</td><td>Matter</td><td>Lab: Calculating Density of Solids & Liquids</td><td>Students measure mass and volume to calculate density of various items</td><td>SEP: Using Mathematics</td></tr>
-                <tr><td>10</td><td>Matter</td><td>Using Density to Identify Unknowns</td><td>Lab: "Identifying an Unknown Contaminant" via density measurement</td><td>3.2.9-12.B</td></tr>
-                <tr><td>11</td><td>Matter</td><td>Review of Matter & Classification</td><td>Review games, practice problems, Quizizz</td><td>All Unit PEs</td></tr>
-                <tr><td>12</td><td>Matter</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.B</td></tr>
-                <tr><td>13</td><td>Matter</td><td>Buffer / Re-teach Day</td><td>Address misconceptions from assessment</td><td></td></tr>
-                <tr><td>14-15</td><td>(Buffer)</td><td>Flex Days</td><td>Catch-up, extensions, or begin next unit</td><td></td></tr>
+                <tr><td>10</td><td>Matter</td><td>Introduction to Gas Laws & Pressure</td><td>Notes on particle motion in gases; Demos with pressure</td><td>PS1.A (related)</td></tr>
+                <tr><td>11-12</td><td>Matter</td><td>Lab: Gas Laws (P, V, T relationships)</td><td>Simulations (PhET) or hands-on labs with syringes/sensors</td><td>SEP: Analyzing Data</td></tr>
+                <tr><td>13</td><td>Matter</td><td>Kinetic Molecular Theory (KMT)</td><td>Developing a model to explain gas behavior</td><td>SEP: Developing Models</td></tr>
+                <tr><td>14-15</td><td>Matter</td><td>Review of Matter, Separation & Gas Laws</td><td>Review games, practice problems, Quizizz</td><td>All Unit PEs</td></tr>
+                <tr><td>16-17</td><td>Matter</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.B</td></tr>
+                <tr><td>18-20</td><td>(Buffer)</td><td>Flex Days</td><td>Catch-up, re-teach, extensions</td><td></td></tr>
                 <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Atoms (~20 Days)</td></tr>
-                <tr><td>16</td><td>Atoms</td><td>Anchoring Phenomenon: Flame Tests & Spectroscopy in Metallurgy</td><td>Flame test demonstration; I Notice, I Wonder discussion</td><td>3.2.9-12.A</td></tr>
-                <tr><td>17</td><td>Atoms</td><td>Historical Models of the Atom (Dalton, Thomson)</td><td>Reading & Jigsaw activity on atomic theory history</td><td>SEP: Obtaining Info</td></tr>
-                <tr><td>18</td><td>Atoms</td><td>Rutherford & the Nuclear Model</td><td>Simulation of Rutherford's Gold Foil Experiment</td><td>SEP: Developing Models</td></tr>
-                <tr><td>19</td><td>Atoms</td><td>Subatomic Particles: Protons, Neutrons, Electrons</td><td>POGIL: "Atomic Structure"; Practice problems (p, n, e)</td><td>3.2.9-12.A, H</td></tr>
-                <tr><td>20</td><td>Atoms</td><td>Isotopes and Average Atomic Mass</td><td>Intro to isotopes; "Isotope Bean Bag Lab" - Day 1 (Data Collection)</td><td>3.2.9-12.H</td></tr>
-                <tr><td>21</td><td>Atoms</td><td>Calculating Average Atomic Mass</td><td>"Isotope Bean Bag Lab" - Day 2 (Calculations & Analysis)</td><td>SEP: Using Mathematics</td></tr>
-                <tr><td>22</td><td>Atoms</td><td>The Bohr Model and Electron Energy Levels</td><td>Notes and diagrams; relate to flame test phenomenon</td><td>3.2.9-12.A</td></tr>
-                <tr><td>23</td><td>Atoms</td><td>Introduction to Electron Configurations</td><td>POGIL: "Electron Configurations" (s, p blocks)</td><td>3.2.9-12.A</td></tr>
-                <tr><td>24</td><td>Atoms</td><td>Writing Electron Configurations</td><td>Practice problems; Whiteboarding examples</td><td>3.2.9-12.A</td></tr>
-                <tr><td>25</td><td>Atoms</td><td>The Periodic Table & Trends: Atomic Radius</td><td>Data analysis activity to discover trend for atomic radius</td><td>3.2.9-12.A; SEP: Analyzing Data</td></tr>
-                <tr><td>26</td><td>Atoms</td><td>Periodic Trends: Ionization Energy & Electronegativity</td><td>Data analysis activity to discover remaining trends</td><td>3.2.9-12.A; CCC: Patterns</td></tr>
-                <tr><td>27</td><td>Atoms</td><td>Explaining Periodic Trends with Atomic Structure</td><td>Whiteboarding sessions to construct explanations for trends</td><td>SEP: Constructing Explanations</td></tr>
-                <tr><td>28</td><td>Atoms</td><td>Nuclear Stability and Introduction to Radioactivity</td><td>Band of Stability introduction; what makes a nucleus unstable?</td><td>3.2.9-12.H</td></tr>
-                <tr><td>29</td><td>Atoms</td><td>Types of Radioactive Decay (Alpha, Beta, Gamma)</td><td>Modeling decay with manipulatives; Writing nuclear equations</td><td>3.2.9-12.H; SEP: Developing Models</td></tr>
-                <tr><td>30-31</td><td>Atoms</td><td>Half-Life (Conceptual & Simple Calculations)</td><td>PhET Simulation: "Alpha Decay"; Practice problems</td><td>3.2.9-12.H</td></tr>
-                <tr><td>32</td><td>Atoms</td><td>Applications: Medical & Industrial Isotopes in PA</td><td>Research and brief presentations on local uses of isotopes</td><td>SEP: Obtaining Info</td></tr>
-                <tr><td>33</td><td>Atoms</td><td>Review of Atoms, Periodicity, and Nuclear</td><td>Review games, practice problems, Quizizz</td><td>All Unit PEs</td></tr>
-                <tr><td>34</td><td>Atoms</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.A, H</td></tr>
-                <tr><td>35</td><td>Atoms</td><td>Buffer / Re-teach Day</td><td>Address misconceptions from assessment</td><td></td></tr>
-                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Bonding (~20 Days)</td></tr>
-                <tr><td>36</td><td>Bonding</td><td>Anchoring Phenomenon: Properties of Salt vs. Sugar vs. Metal</td><td>Demo and discussion of melting point, conductivity, malleability</td><td>3.2.9-12.B, N</td></tr>
-                <tr><td>37</td><td>Bonding</td><td>Introduction to Chemical Bonding: Valence Electrons</td><td>Review of valence electrons; Lewis Dot Structures for atoms</td><td>3.2.9-12.A (review)</td></tr>
-                <tr><td>38</td><td>Bonding</td><td>Ionic Bonding: Electron Transfer</td><td>Modeling ionic bond formation; Predicting formulas of ionic compounds</td><td>3.2.9-12.C (preview)</td></tr>
-                <tr><td>39</td><td>Bonding</td><td>Covalent Bonding: Electron Sharing</td><td>Modeling covalent bond formation; Intro to Lewis Structures for molecules</td><td>3.2.9-12.C (preview)</td></tr>
-                <tr><td>40</td><td>Bonding</td><td>Drawing Lewis Structures (Single Bonds)</td><td>POGIL: "Lewis Structures"; Guided practice</td><td>SEP: Developing Models</td></tr>
-                <tr><td>41</td><td>Bonding</td><td>Lewis Structures (Multiple Bonds & Exceptions)</td><td>Practice with more complex molecules</td><td>SEP: Developing Models</td></tr>
-                <tr><td>42</td><td>Bonding</td><td>VSEPR Theory and Molecular Shapes</td><td>POGIL: "Molecular Geometry"; Building molecules with model kits</td><td>3.2.9-12.N</td></tr>
-                <tr><td>43</td><td>Bonding</td><td>Predicting Molecular Shapes</td><td>Whiteboarding session with various examples</td><td>SEP: Developing Models</td></tr>
-                <tr><td>44</td><td>Bonding</td><td>Electronegativity and Bond Polarity</td><td>Using electronegativity values to determine bond polarity</td><td>3.2.9-12.N; CCC: Patterns</td></tr>
-                <tr><td>45</td><td>Bonding</td><td>Molecular Polarity</td><td>Determining overall molecular polarity based on shape and bond polarity</td><td>3.2.9-12.N</td></tr>
-                <tr><td>46</td><td>Bonding</td><td>Lab: "Properties of Ionic vs. Covalent Substances"</td><td>Students test conductivity, solubility, and melting points</td><td>3.2.9-12.B</td></tr>
-                <tr><td>47</td><td>Bonding</td><td>Introduction to Intermolecular Forces (IMFs)</td><td>Notes and demos on LDF, Dipole-Dipole, and Hydrogen Bonding</td><td>3.2.9-12.B</td></tr>
-                <tr><td>48</td><td>Bonding</td><td>Relating IMFs to Physical Properties</td><td>POGIL: "Intermolecular Forces"; explaining data from previous lab</td><td>SEP: Constructing Explanations</td></tr>
-                <tr><td>49-50</td><td>Bonding</td><td>Metallic Bonding and Properties of Metals</td><td>The "sea of electrons" model; relate to properties from anchor demo</td><td>3.2.9-12.N</td></tr>
-                <tr><td>51</td><td>Bonding</td><td>Putting it all together: Structure & Properties</td><td>Case studies: Explain properties of 3-4 different compounds based on bonding and IMFs</td><td>CCC: Structure & Function</td></tr>
-                <tr><td>52</td><td>Bonding</td><td>Review of Bonding and IMFs</td><td>Practice predicting properties, drawing structures, Quizizz</td><td>All Unit PEs</td></tr>
-                <tr><td>53</td><td>Bonding</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.B, N</td></tr>
-                <tr><td>54-55</td><td>(Buffer)</td><td>Flex Days / Re-teach</td><td>Address misconceptions from assessment</td><td></td></tr>
-                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Reactions (~20 Days)</td></tr>
-                <tr><td>56</td><td>Reactions</td><td>Anchoring Phenomenon: Single Displacement Reaction Demo</td><td>Demo: Zinc in Copper(II) Sulfate. I Notice, I Wonder. Connect to plating.</td><td>3.2.9-12.C</td></tr>
-                <tr><td>57</td><td>Reactions</td><td>Evidence of Chemical Reactions & Writing Equations</td><td>Notes and practice writing skeleton equations from word descriptions</td><td>SEP: Developing Models</td></tr>
-                <tr><td>58</td><td>Reactions</td><td>Balancing Chemical Equations & Conservation of Mass</td><td>POGIL: "Balancing Equations"; Practice with manipulatives/diagrams</td><td>3.2.9-12.G</td></tr>
-                <tr><td>59</td><td>Reactions</td><td>Lab: Types of Reactions</td><td>Students perform and classify several small-scale reactions</td><td>3.2.9-12.C</td></tr>
-                <tr><td>60</td><td>Reactions</td><td>Whiteboarding: Classifying Reactions</td><td>Groups present lab results and balanced equations</td><td>SEP: Engaging in Argument</td></tr>
-                <tr><td>61-62</td><td>Reactions</td><td>The Mole and Molar Mass</td><td>Intro to mole concept, Avogadro's number, calculating molar mass</td><td>3.2.9-12.G</td></tr>
-                <tr><td>63-64</td><td>Reactions</td><td>Introduction to Stoichiometry & Mole Ratios</td><td>Using balanced equations for mole-to-mole conversions. BCA tables.</td><td>SEP: Using Mathematics</td></tr>
-                <tr><td>65-66</td><td>Reactions</td><td>Mass Stoichiometry</td><td>Practice mass-to-mole and mass-to-mass calculations. BCA tables.</td><td>3.2.9-12.G</td></tr>
-                <tr><td>67</td><td>Reactions</td><td>Limiting Reactants: Conceptual Introduction</td><td>POGIL: "Limiting Reactants"; analogies (e.g., building bicycles)</td><td>3.2.9-12.G</td></tr>
-                <tr><td>68</td><td>Reactions</td><td>Lab: Limiting Reactant & Percent Yield - Day 1</td><td>Students perform a precipitation reaction with known reactant amounts</td><td>SEP: Planning Investigations</td></tr>
-                <tr><td>69</td><td>Reactions</td><td>Limiting Reactant & Percent Yield - Day 2</td><td>Isolate, dry, and weigh product. Calculate theoretical & percent yield.</td><td>SEP: Analyzing Data</td></tr>
-                <tr><td>70</td><td>Reactions</td><td>Stoichiometry Review and Practice</td><td>Complex problems involving limiting reactants and percent yield</td><td>3.2.9-12.G</td></tr>
-                <tr><td>71-73</td><td>Reactions</td><td>**Collaborative Project Work Session 1: Jewelry & Photo**</td><td>Students begin research and station design for their respective projects</td><td>ELS/T&E Standards</td></tr>
-                <tr><td>74-75</td><td>Reactions</td><td>**Collaborative Project Work Session 2: Jewelry & Photo**</td><td>Students finalize station content and practice their demonstrations</td><td>ELS/T&E Standards</td></tr>
-                <tr><td>76</td><td>Reactions</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.C, G</td></tr>
+                <tr><td>21</td><td>Atoms</td><td>Anchoring Phenomenon: Burning Steel Wool</td><td>Demo; I Notice, I Wonder discussion</td><td>3.2.9-12.A</td></tr>
+                <tr><td>22</td><td>Atoms</td><td>Historical Models of the Atom (Dalton, Thomson)</td><td>Reading & Jigsaw activity on atomic theory history</td><td>SEP: Obtaining Info</td></tr>
+                <tr><td>23</td><td>Atoms</td><td>Rutherford & the Nuclear Model</td><td>Simulation of Rutherford's Gold Foil Experiment</td><td>SEP: Developing Models</td></tr>
+                <tr><td>24</td><td>Atoms</td><td>Subatomic Particles: Protons, Neutrons, Electrons</td><td>POGIL: "Atomic Structure"; Practice problems (p, n, e)</td><td>3.2.9-12.A, H</td></tr>
+                <tr><td>25</td><td>Atoms</td><td>Isotopes and Average Atomic Mass</td><td>Intro to isotopes; "Isotope Bean Bag Lab" - Day 1 (Data Collection)</td><td>3.2.9-12.H</td></tr>
+                <tr><td>26</td><td>Atoms</td><td>Calculating Average Atomic Mass</td><td>"Isotope Bean Bag Lab" - Day 2 (Calculations & Analysis)</td><td>SEP: Using Mathematics</td></tr>
+                <tr><td>27</td><td>Atoms</td><td>The Bohr Model and Electron Energy Levels</td><td>Notes and diagrams; relate to flame test phenomenon</td><td>3.2.9-12.A</td></tr>
+                <tr><td>28</td><td>Atoms</td><td>Introduction to Electron Configurations</td><td>POGIL: "Electron Configurations" (s, p blocks)</td><td>3.2.9-12.A</td></tr>
+                <tr><td>29</td><td>Atoms</td><td>Writing Electron Configurations</td><td>Practice problems; Whiteboarding examples</td><td>3.2.9-12.A</td></tr>
+                <tr><td>30</td><td>Atoms</td><td>The Periodic Table & Trends: Atomic Radius</td><td>Data analysis activity to discover trend for atomic radius</td><td>3.2.9-12.A; SEP: Analyzing Data</td></tr>
+                <tr><td>31</td><td>Atoms</td><td>Periodic Trends: Ionization Energy & Electronegativity</td><td>Data analysis activity to discover remaining trends</td><td>3.2.9-12.A; CCC: Patterns</td></tr>
+                <tr><td>32</td><td>Atoms</td><td>Explaining Periodic Trends with Atomic Structure</td><td>Whiteboarding sessions to construct explanations for trends</td><td>SEP: Constructing Explanations</td></tr>
+                <tr><td>33</td><td>Atoms</td><td>Nuclear Stability and Introduction to Radioactivity</td><td>Band of Stability introduction; what makes a nucleus unstable?</td><td>3.2.9-12.H</td></tr>
+                <tr><td>34-35</td><td>Atoms</td><td>Types of Radioactive Decay (Alpha, Beta, Gamma)</td><td>Modeling decay with manipulatives; Writing nuclear equations</td><td>3.2.9-12.H; SEP: Developing Models</td></tr>
+                <tr><td>36</td><td>Atoms</td><td>Applications: Medical & Industrial Isotopes in PA</td><td>Research and brief presentations on local uses of isotopes</td><td>SEP: Obtaining Info</td></tr>
+                <tr><td>37</td><td>Atoms</td><td>Review of Atoms, Periodicity, and Nuclear</td><td>Review games, practice problems, Quizizz</td><td>All Unit PEs</td></tr>
+                <tr><td>38</td><td>Atoms</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.A, H</td></tr>
+                <tr><td>39-40</td><td>(Buffer)</td><td>Flex Days / Re-teach</td><td>Address misconceptions from assessment</td><td></td></tr>
+                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Bonding (~18 Days)</td></tr>
+                <tr><td>41</td><td>Bonding</td><td>Anchoring Phenomenon: "Indestructible" Polyurea Coating</td><td>Video Demo and discussion of properties</td><td>3.2.9-12.B, N</td></tr>
+                <tr><td>42</td><td>Bonding</td><td>Introduction to Chemical Bonding: Valence Electrons</td><td>Review of valence electrons; Lewis Dot Structures for atoms</td><td>3.2.9-12.A (review)</td></tr>
+                <tr><td>43</td><td>Bonding</td><td>Ionic Bonding: Electron Transfer</td><td>Modeling ionic bond formation; Predicting formulas of ionic compounds</td><td>3.2.9-12.C (preview)</td></tr>
+                <tr><td>44</td><td>Bonding</td><td>Covalent Bonding: Electron Sharing</td><td>Modeling covalent bond formation; Intro to Lewis Structures for molecules</td><td>3.2.9-12.C (preview)</td></tr>
+                <tr><td>45-46</td><td>Bonding</td><td>Drawing Lewis Structures (Single & Multiple Bonds)</td><td>POGIL: "Lewis Structures"; Guided practice</td><td>SEP: Developing Models</td></tr>
+                <tr><td>47-48</td><td>Bonding</td><td>VSEPR Theory and Molecular Shapes</td><td>POGIL: "Molecular Geometry"; Building molecules with model kits</td><td>3.2.9-12.N</td></tr>
+                <tr><td>49</td><td>Bonding</td><td>Electronegativity and Bond Polarity</td><td>Using electronegativity values to determine bond polarity</td><td>3.2.9-12.N; CCC: Patterns</td></tr>
+                <tr><td>50</td><td>Bonding</td><td>Molecular Polarity</td><td>Determining overall molecular polarity based on shape and bond polarity</td><td>3.2.9-12.N</td></tr>
+                <tr><td>51-52</td><td>Bonding</td><td>Lab: "Properties of Ionic vs. Covalent Substances"</td><td>Students test conductivity, solubility, and melting points</td><td>3.2.9-12.B</td></tr>
+                <tr><td>53</td><td>Bonding</td><td>Introduction to Intermolecular Forces (IMFs)</td><td>Notes and demos on LDF, Dipole-Dipole, and Hydrogen Bonding</td><td>3.2.9-12.B</td></tr>
+                <tr><td>54</td><td>Bonding</td><td>Relating IMFs to Physical Properties</td><td>POGIL: "Intermolecular Forces"; explaining data from previous lab</td><td>SEP: Constructing Explanations</td></tr>
+                <tr><td>55</td><td>Bonding</td><td>Metallic Bonding and Properties of Metals</td><td>The "sea of electrons" model</td><td>3.2.9-12.N</td></tr>
+                <tr><td>56</td><td>Bonding</td><td>Review of Bonding and IMFs</td><td>Practice predicting properties, drawing structures, Quizizz</td><td>All Unit PEs</td></tr>
+                <tr><td>57</td><td>Bonding</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.B, N</td></tr>
+                <tr><td>58</td><td>(Buffer)</td><td>Flex Day / Re-teach</td><td>Address misconceptions from assessment</td><td></td></tr>
+                <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Reactions (~17 Days)</td></tr>
+                <tr><td>59</td><td>Reactions</td><td>Anchoring Phenomenon: Single Displacement Reaction Demo</td><td>Demo: Zinc in Copper(II) Sulfate. I Notice, I Wonder. Connect to plating.</td><td>3.2.9-12.C</td></tr>
+                <tr><td>60</td><td>Reactions</td><td>Evidence of Chemical Reactions & Writing Equations</td><td>Notes and practice writing skeleton equations</td><td>SEP: Developing Models</td></tr>
+                <tr><td>61-62</td><td>Reactions</td><td>Balancing Chemical Equations & Conservation of Mass</td><td>POGIL: "Balancing Equations"; Practice with manipulatives/diagrams</td><td>3.2.9-12.G</td></tr>
+                <tr><td>63</td><td>Reactions</td><td>Classifying Reaction Types</td><td>Notes and examples for synthesis, decomp, etc.</td><td>3.2.9-12.C</td></tr>
+                <tr><td>64-65</td><td>Reactions</td><td>The Mole and Molar Mass</td><td>Intro to mole concept, Avogadro's number, calculating molar mass</td><td>3.2.9-12.G</td></tr>
+                <tr><td>66-67</td><td>Reactions</td><td>Introduction to Stoichiometry & Mole Ratios</td><td>Using balanced equations for mole-to-mole conversions. BCA tables.</td><td>SEP: Using Mathematics</td></tr>
+                <tr><td>68</td><td>Reactions</td><td>Mass Stoichiometry</td><td>Practice mass-to-mass calculations.</td><td>3.2.9-12.G</td></tr>
+                <tr><td>69</td><td>Reactions</td><td>Limiting Reactants & Percent Yield</td><td>POGIL: "Limiting Reactants"; Lab: Limiting Reactant & Percent Yield</td><td>3.2.9-12.G</td></tr>
+                <tr><td>70-72</td><td>Reactions</td><td>**Collaborative Project Work Session: Jewelry & Photo**</td><td>Students research, design, and practice their cross-curricular stations</td><td>ELS/T&E Standards</td></tr>
+                <tr><td>73</td><td>Reactions</td><td>Review & Quizizz</td><td>Stoichiometry review</td><td>All Unit PEs</td></tr>
+                <tr><td>74</td><td>Reactions</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.C, G</td></tr>
+                <tr><td>75</td><td>(Buffer)</td><td>Flex Day / Re-teach</td><td>Address misconceptions from assessment</td><td></td></tr>
                 <tr><td colspan="5" class="font-bold bg-stone-200">Unit: Chemical Engineering Concepts (~15 Days)</td></tr>
-                <tr><td>77</td><td>Chemical Engineering</td><td>Anchoring Phenomenon: Glow Sticks at Different Temperatures</td><td>Demo: Glow sticks in hot vs. cold water. I Notice, I Wonder.</td><td>3.2.9-12.E</td></tr>
-                <tr><td>78</td><td>Chemical Engineering</td><td>Reaction Rates and Collision Theory</td><td>POGIL: "Collision Theory"; Intro to energy diagrams & activation energy</td><td>3.2.9-12.E</td></tr>
-                <tr><td>79-80</td><td>Chemical Engineering</td><td>Lab: Factors Affecting Reaction Rates</td><td>Investigate effects of concentration, temperature, surface area</td><td>SEP: Planning Investigations</td></tr>
-                <tr><td>81</td><td>Chemical Engineering</td><td>Whiteboarding & Analyzing Rate Data</td><td>Groups present lab results and explain using collision theory</td><td>SEP: Constructing Explanations</td></tr>
-                <tr><td>82</td><td>Chemical Engineering</td><td>Catalysts and Enzymes</td><td>Demo: Decomposition of H₂O₂ with a catalyst (MnO₂ or yeast)</td><td>3.2.9-12.E</td></tr>
-                <tr><td>83</td><td>Chemical Engineering</td><td>Introduction to Dynamic Equilibrium</td><td>Demo: Reversible reaction (e.g., CoCl₂ system); PhET simulation</td><td>3.2.9-12.F</td></tr>
-                <tr><td>84-85</td><td>Chemical Engineering</td><td>Le Chatelier's Principle</td><td>POGIL: "Le Chatelier's Principle"; Predicting shifts in equilibrium</td><td>3.2.9-12.F</td></tr>
-                <tr><td>86-87</td><td>Chemical Engineering</td><td>Energy in Reactions: Enthalpy & Bond Energy</td><td>Introduction to ΔH; POGIL or activity on calculating enthalpy from bond energies</td><td>3.2.9-12.D</td></tr>
-                <tr><td>88</td><td>Chemical Engineering</td><td>Review of Rates, Equilibrium, and Energy</td><td>Practice problems, conceptual review, Quizizz</td><td>All Unit PEs</td></tr>
-                <tr><td>89</td><td>Chemical Engineering</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.D, E, F</td></tr>
-                <tr><td>90</td><td>(Buffer)</td><td>**Final Project Presentations / Course Culmination**</td><td>Jewelry/Photo collaborations presented, or Final Exam Review</td><td></td></tr>
+                <tr><td>76</td><td>Chemical Engineering</td><td>Anchoring Phenomenon: Reusable Heat Packs</td><td>Demo; I Notice, I Wonder.</td><td>3.2.9-12.E, F, D</td></tr>
+                <tr><td>77</td><td>Chemical Engineering</td><td>Reaction Rates and Collision Theory</td><td>POGIL: "Collision Theory"; Intro to energy diagrams & activation energy</td><td>3.2.9-12.E</td></tr>
+                <tr><td>78-79</td><td>Chemical Engineering</td><td>Lab: Factors Affecting Reaction Rates</td><td>Investigate effects of concentration, temperature, surface area</td><td>SEP: Planning Investigations</td></tr>
+                <tr><td>80</td><td>Chemical Engineering</td><td>Whiteboarding & Analyzing Rate Data</td><td>Groups present lab results and explain using collision theory</td><td>SEP: Constructing Explanations</td></tr>
+                <tr><td>81</td><td>Chemical Engineering</td><td>Energy in Reactions: Enthalpy & Bond Energy</td><td>Introduction to ΔH; POGIL or activity on calculating enthalpy from bond energies</td><td>3.2.9-12.D</td></tr>
+                <tr><td>82</td><td>Chemical Engineering</td><td>Introduction to Dynamic Equilibrium</td><td>Demo: Reversible reaction (e.g., CoCl₂ system); PhET simulation</td><td>3.2.9-12.F</td></tr>
+                <tr><td>83-84</td><td>Chemical Engineering</td><td>Le Chatelier's Principle</td><td>POGIL: "Le Chatelier's Principle"; Predicting shifts in equilibrium</td><td>3.2.9-12.F</td></tr>
+                <tr><td>85</td><td>Chemical Engineering</td><td>PA Connection: Haber-Bosch Process</td><td>Case study on optimizing an industrial reaction</td><td>3.2.9-12.F</td></tr>
+                <tr><td>86</td><td>Chemical Engineering</td><td>Review & Quizizz</td><td>Practice problems, conceptual review</td><td>All Unit PEs</td></tr>
+                <tr><td>87</td><td>Chemical Engineering</td><td>Unit Performance Assessment</td><td>DCI/Wonder of Science/AMTA Assessments</td><td>3.2.9-12.D, E, F</td></tr>
+                <tr><td>88-90</td><td>(Buffer)</td><td>**Final Project Presentations / Course Culmination / Final Exam Review**</td><td>Jewelry/Photo collaborations presented, or Final Exam Review</td><td></td></tr>
             </tbody>
         </table>
     `;
@@ -870,6 +860,10 @@
 
         switchTab("introduction");
     });
+
+</script>
+</body>
+</html>
 
 </script>
 </body>
